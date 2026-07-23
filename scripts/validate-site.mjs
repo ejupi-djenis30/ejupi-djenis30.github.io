@@ -16,6 +16,26 @@ function assert(condition, message) {
   if (!condition) throw new Error(message);
 }
 
+function relativeLuminance(hexColor) {
+  const channels = hexColor
+    .slice(1)
+    .match(/.{2}/g)
+    .map((channel) => Number.parseInt(channel, 16) / 255)
+    .map((channel) => (
+      channel <= 0.03928
+        ? channel / 12.92
+        : ((channel + 0.055) / 1.055) ** 2.4
+    ));
+
+  return (0.2126 * channels[0]) + (0.7152 * channels[1]) + (0.0722 * channels[2]);
+}
+
+function contrastRatio(foreground, background) {
+  const luminances = [relativeLuminance(foreground), relativeLuminance(background)]
+    .sort((left, right) => right - left);
+  return (luminances[0] + 0.05) / (luminances[1] + 0.05);
+}
+
 const [html, notFound, styles, robots, sitemap, favicon, packageText] = await Promise.all([
   readFile(new URL("index.html", siteRoot), "utf8"),
   readFile(new URL("404.html", siteRoot), "utf8"),
@@ -71,6 +91,13 @@ assert(
   "Meta CSP must not contain header-only directives or break HTTP-based local verification.",
 );
 assert(!/@import|https?:\/\/[^)'"]+\.(?:css|woff2?)/i.test(styles), "The site must not load remote CSS or fonts.");
+const paper = styles.match(/--paper:\s*(#[0-9a-f]{6})/i)?.[1];
+const oxideDark = styles.match(/--oxide-dark:\s*(#[0-9a-f]{6})/i)?.[1];
+assert(paper && oxideDark, "The paper and dark oxide color tokens must use six-digit hex values.");
+assert(
+  contrastRatio(oxideDark, paper) >= 4.5,
+  "The dark oxide accent must meet WCAG AA contrast against the paper background.",
+);
 assert(
   styles.includes(".project-card:nth-child(4n + 1)")
     && styles.includes(".project-card:nth-child(4n + 4)")
