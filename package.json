@@ -1,0 +1,21 @@
+{
+  "name": "ejupi-labs-open-source-index",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "The origin-level GitHub Pages index, crawler policy and sitemap for Ejupi Labs open-source projects.",
+  "homepage": "https://ejupi-djenis30.github.io/",
+  "license": "MIT",
+  "scripts": {
+    "test": "node --test",
+    "check:site": "node scripts/validate-site.mjs",
+    "check": "npm test && npm run check:site",
+    "test:e2e": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.61.1"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
