@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="A curated index of seven maintained open-source projects from Ejupi Labs, with clear product tours, known limits, source code and release evidence."
+      content="Explore seven maintained open-source products from Ejupi Labs, with direct links to each product, its source code, operating boundaries and supporting evidence."
     />
     <meta name="robots" content="index, follow, max-image-preview:large" />
     <meta name="color-scheme" content="light" />
@@ -20,10 +20,10 @@
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="en_CH" />
     <meta property="og:site_name" content="Ejupi Labs Open Source" />
-    <meta property="og:title" content="Ejupi Labs — Open Source Index" />
+    <meta property="og:title" content="Open-source product archive | Ejupi Labs" />
     <meta
       property="og:description"
-      content="Seven maintained projects, clearly presented with their purpose, boundaries, source and release evidence."
+      content="Seven maintained products, presented with direct routes to the product, source code, operating boundaries and evidence."
     />
     <meta property="og:url" content="https://ejupi-djenis30.github.io/" />
     <meta
@@ -35,13 +35,13 @@
     <meta property="og:image:height" content="630" />
     <meta
       property="og:image:alt"
-      content="Ejupi Labs Open Source — open source without the treasure hunt"
+      content="Ejupi Labs open-source product archive, featuring seven maintained products"
     />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Ejupi Labs — Open Source Index" />
+    <meta name="twitter:title" content="Open-source product archive | Ejupi Labs" />
     <meta
       name="twitter:description"
-      content="Seven maintained projects, clearly presented with their purpose, boundaries, source and release evidence."
+      content="Seven maintained products, presented with direct routes to the product, source code, operating boundaries and evidence."
     />
     <meta
       name="twitter:image"
@@ -49,236 +49,305 @@
     />
     <meta
       name="twitter:image:alt"
-      content="Ejupi Labs Open Source — open source without the treasure hunt"
+      content="Ejupi Labs open-source product archive, featuring seven maintained products"
     />
-    <title>Ejupi Labs — Open Source Index</title>
+    <title>Open-source product archive | Ejupi Labs</title>
   </head>
   <body>
-    <a class="skip-link" href="#main">Skip to the projects</a>
+    <a class="skip-link" href="#main">Skip to the product archive</a>
 
     <header class="site-header">
-      <a class="brand" href="./" aria-label="Ejupi Labs open-source index, home">
-        <img src="./favicon.svg" width="34" height="34" alt="" />
-        <span>Ejupi Labs</span>
-        <small>Open source</small>
+      <a class="brand" href="./" aria-label="Ejupi Labs open-source archive, home">
+        <img
+          class="brand-wordmark"
+          src="./brand/ejupi-labs-primary-carbon.svg"
+          width="958"
+          height="295"
+          alt="Ejupi Labs"
+        />
+        <span class="brand-context">Open-source archive</span>
       </a>
       <nav aria-label="Primary navigation">
-        <a href="#projects">Projects</a>
+        <a href="#projects">Products</a>
+        <a href="#archive-notes">About the archive</a>
         <a href="https://ejupilabs.com/" rel="external">Studio <span aria-hidden="true">↗</span></a>
       </nav>
     </header>
 
     <main id="main" tabindex="-1">
-      <section class="hero" aria-labelledby="hero-title">
+      <section class="hero archive-hero" aria-labelledby="hero-title">
         <div class="hero-copy">
-          <p class="eyebrow"><span aria-hidden="true">01</span> Seven projects / one public index</p>
-          <h1 id="hero-title">Open source,<br /><em>without the treasure hunt.</em></h1>
+          <p class="eyebrow">Ejupi Labs / Open-source product archive</p>
+          <h1 id="hero-title">Seven open-source products, one maintained archive.</h1>
           <p class="lead">
-            A curated set of maintained software from Ejupi Labs. Understand the
-            purpose, boundaries and evidence before opening the repository.
+            Public work spanning local AI, machine learning, automation, network
+            tools, numerical methods, operations and consent-based support. Each
+            record provides context, then links directly to the product and source.
           </p>
           <div class="hero-actions">
-            <a class="button button-dark" href="#projects">Explore the projects <span aria-hidden="true">↓</span></a>
-            <a class="button button-line" href="https://ejupilabs.com/" rel="external">Visit the studio <span aria-hidden="true">↗</span></a>
+            <a class="button button-dark" href="#projects">Browse the archive <span aria-hidden="true">↓</span></a>
+            <a class="button button-line" href="https://ejupilabs.com/" rel="external">Visit Ejupi Labs <span aria-hidden="true">↗</span></a>
           </div>
         </div>
 
-        <div class="index-board" aria-hidden="true">
-          <div class="board-heading">
-            <span>PUBLIC INDEX</span>
-            <span>07 / 07</span>
+        <aside class="archive-summary" aria-labelledby="archive-summary-title">
+          <div class="archive-summary__heading">
+            <p class="kicker">Archive overview</p>
+            <span aria-hidden="true">07</span>
           </div>
-          <div class="board-axis"></div>
-          <div class="board-node node-one"><b>01</b><span>CAREER</span></div>
-          <div class="board-node node-two"><b>02</b><span>ML</span></div>
-          <div class="board-node node-three"><b>03</b><span>AGENT</span></div>
-          <div class="board-node node-four"><b>04</b><span>PROTOCOL</span></div>
-          <div class="board-node node-five"><b>05</b><span>NUMERICS</span></div>
-          <div class="board-node node-six"><b>06</b><span>OPERATIONS</span></div>
-          <div class="board-node node-seven"><b>07</b><span>SUPPORT</span></div>
-          <p>context → source → evidence</p>
-        </div>
+          <h2 id="archive-summary-title">A clear route from context to code.</h2>
+          <p>
+            This index is the navigation layer. Product pages explain the work;
+            repositories preserve the implementation and evidence.
+          </p>
+          <dl>
+            <div><dt>Records</dt><dd>7 maintained products</dd></div>
+            <div><dt>Coverage</dt><dd>7 engineering disciplines</dd></div>
+            <div><dt>Per record</dt><dd>Product + Source</dd></div>
+            <div><dt>Website policy</dt><dd>Script-free · no tracking</dd></div>
+          </dl>
+        </aside>
       </section>
 
       <section class="projects section" id="projects" aria-labelledby="projects-title">
         <div class="section-heading">
-          <p class="eyebrow"><span aria-hidden="true">02</span> Curated projects</p>
-          <h2 id="projects-title">Understand it<br />before you run it.</h2>
+          <p class="eyebrow"><span aria-hidden="true">01</span> Product archive</p>
+          <h2 id="projects-title">Products in the public record.</h2>
           <p>
-            Start with a focused product page. The implementation and its
-            evidence remain one deliberate step away.
+            Each entry states what the product is for, identifies its core
+            technology and provides the two routes needed to evaluate it.
           </p>
         </div>
 
-        <ol class="project-grid">
-          <li class="project-card">
+        <ol class="project-index">
+          <li class="project-record">
             <article>
-              <span class="project-number">01 / DESKTOP + LOCAL AI</span>
-              <h3>CareerOS Local</h3>
-              <p>
-                A private desktop workspace that turns verified career records
-                into focused searches, applications and an actionable agenda.
-              </p>
-              <ul aria-label="CareerOS Local technologies">
-                <li>Python</li>
-                <li>React</li>
-                <li>Rust</li>
-              </ul>
-              <div class="project-actions">
-                <a href="https://ejupi-djenis30.github.io/careeros-local/">Open product page <span aria-hidden="true">↗</span></a>
-                <a href="https://github.com/ejupi-djenis30/careeros-local" rel="external">Source <span aria-hidden="true">↗</span></a>
+              <span class="project-record__number" aria-hidden="true">01</span>
+              <div class="project-record__body">
+                <p class="project-category">Desktop / local AI</p>
+                <h3>CareerOS Local</h3>
+                <p>
+                  A private desktop workspace that turns verified career records
+                  into focused searches, stronger applications and a practical
+                  agenda for the next step.
+                </p>
+              </div>
+              <div class="project-record__details">
+                <ul aria-label="CareerOS Local technologies">
+                  <li>Python</li>
+                  <li>React</li>
+                  <li>Rust</li>
+                </ul>
+                <div class="project-actions">
+                  <a data-product-link href="https://ejupi-djenis30.github.io/careeros-local/">Product <span class="sr-only">— CareerOS Local</span><span aria-hidden="true">↗</span></a>
+                  <a href="https://github.com/ejupi-djenis30/careeros-local" rel="external">Source <span class="sr-only">— CareerOS Local</span><span aria-hidden="true">↗</span></a>
+                </div>
               </div>
             </article>
           </li>
-          <li class="project-card">
+
+          <li class="project-record">
             <article>
-              <span class="project-number">02 / MACHINE LEARNING</span>
-              <h3>ELIZA Lab</h3>
-              <p>
-                An inspectable open-set ML lab for training, calibration and
-                abstention, backed by frozen inputs and reproducible artifacts.
-              </p>
-              <ul aria-label="ELIZA Lab technologies">
-                <li>Rust</li>
-                <li>Open-set ML</li>
-                <li>Calibration</li>
-              </ul>
-              <div class="project-actions">
-                <a href="https://ejupi-djenis30.github.io/PsychologistRustBot/">Open product page <span aria-hidden="true">↗</span></a>
-                <a href="https://github.com/ejupi-djenis30/PsychologistRustBot" rel="external">Source <span aria-hidden="true">↗</span></a>
+              <span class="project-record__number" aria-hidden="true">02</span>
+              <div class="project-record__body">
+                <p class="project-category">Machine learning</p>
+                <h3>ELIZA Lab</h3>
+                <p>
+                  An inspectable open-set machine-learning lab for training,
+                  calibration and abstention, backed by frozen inputs and
+                  reproducible artifacts.
+                </p>
+              </div>
+              <div class="project-record__details">
+                <ul aria-label="ELIZA Lab technologies">
+                  <li>Rust</li>
+                  <li>Open-set ML</li>
+                  <li>Calibration</li>
+                </ul>
+                <div class="project-actions">
+                  <a data-product-link href="https://ejupi-djenis30.github.io/PsychologistRustBot/">Product <span class="sr-only">— ELIZA Lab</span><span aria-hidden="true">↗</span></a>
+                  <a href="https://github.com/ejupi-djenis30/PsychologistRustBot" rel="external">Source <span class="sr-only">— ELIZA Lab</span><span aria-hidden="true">↗</span></a>
+                </div>
               </div>
             </article>
           </li>
-          <li class="project-card">
+
+          <li class="project-record">
             <article>
-              <span class="project-number">03 / CONTROLLED AUTOMATION</span>
-              <h3>Djenis<wbr />AiAgent</h3>
-              <p>
-                A permission-aware agent for Windows and browser tasks, with
-                scoped capabilities, allowlists and fresh-state verification.
-              </p>
-              <ul aria-label="DjenisAiAgent technologies">
-                <li>Python</li>
-                <li>Browser control</li>
-                <li>Windows</li>
-              </ul>
-              <div class="project-actions">
-                <a href="https://ejupi-djenis30.github.io/DjenisAiAgent/">Open product page <span aria-hidden="true">↗</span></a>
-                <a href="https://github.com/ejupi-djenis30/DjenisAiAgent" rel="external">Source <span aria-hidden="true">↗</span></a>
+              <span class="project-record__number" aria-hidden="true">03</span>
+              <div class="project-record__body">
+                <p class="project-category">Controlled automation</p>
+                <h3>Djenis<wbr />AiAgent</h3>
+                <p>
+                  A permission-aware agent for Windows and browser tasks, using
+                  scoped capabilities, explicit allowlists and fresh-state
+                  verification.
+                </p>
+              </div>
+              <div class="project-record__details">
+                <ul aria-label="DjenisAiAgent technologies">
+                  <li>Python</li>
+                  <li>Browser control</li>
+                  <li>Windows</li>
+                </ul>
+                <div class="project-actions">
+                  <a data-product-link href="https://ejupi-djenis30.github.io/DjenisAiAgent/">Product <span class="sr-only">— DjenisAiAgent</span><span aria-hidden="true">↗</span></a>
+                  <a href="https://github.com/ejupi-djenis30/DjenisAiAgent" rel="external">Source <span class="sr-only">— DjenisAiAgent</span><span aria-hidden="true">↗</span></a>
+                </div>
               </div>
             </article>
           </li>
-          <li class="project-card">
+
+          <li class="project-record">
             <article>
-              <span class="project-number">04 / NETWORK PROTOCOL</span>
-              <h3>DIG</h3>
-              <p>
-                A bounded Gopher client with a CLI, local web inspector and
-                same-origin gateway that keeps selectors and response limits visible.
-              </p>
-              <ul aria-label="DIG technologies">
-                <li>Node.js</li>
-                <li>Gopher</li>
-                <li>Network policy</li>
-              </ul>
-              <div class="project-actions">
-                <a href="https://ejupi-djenis30.github.io/Dig/">Open product page <span aria-hidden="true">↗</span></a>
-                <a href="https://github.com/ejupi-djenis30/Dig" rel="external">Source <span aria-hidden="true">↗</span></a>
+              <span class="project-record__number" aria-hidden="true">04</span>
+              <div class="project-record__body">
+                <p class="project-category">Network protocol</p>
+                <h3>DIG</h3>
+                <p>
+                  A bounded Gopher client with a CLI, a local web inspector and a
+                  same-origin gateway that keeps selectors, routing and response
+                  limits visible.
+                </p>
+              </div>
+              <div class="project-record__details">
+                <ul aria-label="DIG technologies">
+                  <li>Node.js</li>
+                  <li>Gopher</li>
+                  <li>Network policy</li>
+                </ul>
+                <div class="project-actions">
+                  <a data-product-link href="https://ejupi-djenis30.github.io/Dig/">Product <span class="sr-only">— DIG</span><span aria-hidden="true">↗</span></a>
+                  <a href="https://github.com/ejupi-djenis30/Dig" rel="external">Source <span class="sr-only">— DIG</span><span aria-hidden="true">↗</span></a>
+                </div>
               </div>
             </article>
           </li>
-          <li class="project-card">
+
+          <li class="project-record">
             <article>
-              <span class="project-number">05 / NUMERICAL METHODS</span>
-              <h3>IntegraDraw</h3>
-              <p>
-                A visual workbench for comparing midpoint and trapezoidal
-                integration against a shared Simpson reference.
-              </p>
-              <ul aria-label="IntegraDraw technologies">
-                <li>Java</li>
-                <li>TypeScript</li>
-                <li>Numerics</li>
-              </ul>
-              <div class="project-actions">
-                <a href="https://ejupi-djenis30.github.io/IntegraDraw/">Open product page <span aria-hidden="true">↗</span></a>
-                <a href="https://github.com/ejupi-djenis30/IntegraDraw" rel="external">Source <span aria-hidden="true">↗</span></a>
+              <span class="project-record__number" aria-hidden="true">05</span>
+              <div class="project-record__body">
+                <p class="project-category">Numerical methods</p>
+                <h3>IntegraDraw</h3>
+                <p>
+                  A visual workbench for comparing midpoint and trapezoidal
+                  integration against a shared Simpson reference.
+                </p>
+              </div>
+              <div class="project-record__details">
+                <ul aria-label="IntegraDraw technologies">
+                  <li>Java</li>
+                  <li>TypeScript</li>
+                  <li>Numerics</li>
+                </ul>
+                <div class="project-actions">
+                  <a data-product-link href="https://ejupi-djenis30.github.io/IntegraDraw/">Product <span class="sr-only">— IntegraDraw</span><span aria-hidden="true">↗</span></a>
+                  <a href="https://github.com/ejupi-djenis30/IntegraDraw" rel="external">Source <span class="sr-only">— IntegraDraw</span><span aria-hidden="true">↗</span></a>
+                </div>
               </div>
             </article>
           </li>
-          <li class="project-card">
+
+          <li class="project-record">
             <article>
-              <span class="project-number">06 / OPERATIONS WORKSPACE</span>
-              <h3>VECTOR</h3>
-              <p>
-                A self-hosted placement operations platform with scoped roles,
-                persistent records, completion controls and an append-only audit trail.
-              </p>
-              <ul aria-label="VECTOR technologies">
-                <li>Node.js</li>
-                <li>SQLite</li>
-                <li>Operations</li>
-              </ul>
-              <div class="project-actions">
-                <a href="https://ejupi-djenis30.github.io/vector-placement-operations/">Open product page <span aria-hidden="true">↗</span></a>
-                <a href="https://github.com/ejupi-djenis30/vector-placement-operations" rel="external">Source <span aria-hidden="true">↗</span></a>
+              <span class="project-record__number" aria-hidden="true">06</span>
+              <div class="project-record__body">
+                <p class="project-category">Operations workspace</p>
+                <h3>VECTOR</h3>
+                <p>
+                  A self-hosted placement operations platform with scoped roles,
+                  persistent records, completion controls and an append-only
+                  audit trail.
+                </p>
+              </div>
+              <div class="project-record__details">
+                <ul aria-label="VECTOR technologies">
+                  <li>Node.js</li>
+                  <li>SQLite</li>
+                  <li>Operations</li>
+                </ul>
+                <div class="project-actions">
+                  <a data-product-link href="https://ejupi-djenis30.github.io/vector-placement-operations/">Product <span class="sr-only">— VECTOR</span><span aria-hidden="true">↗</span></a>
+                  <a href="https://github.com/ejupi-djenis30/vector-placement-operations" rel="external">Source <span class="sr-only">— VECTOR</span><span aria-hidden="true">↗</span></a>
+                </div>
               </div>
             </article>
           </li>
-          <li class="project-card">
+
+          <li class="project-record">
             <article>
-              <span class="project-number">07 / CONSENT-BASED REMOTE SUPPORT</span>
-              <h3>JDoor Assist</h3>
-              <p>
-                A documentation-first tour of consent-based remote support, with
-                explicit session limits and gated release evidence.
-              </p>
-              <ul aria-label="JDoor Assist technologies">
-                <li>Java</li>
-                <li>Session consent</li>
-                <li>Remote support</li>
-              </ul>
-              <div class="project-actions">
-                <a href="https://ejupi-djenis30.github.io/jdoor/">Open product tour <span aria-hidden="true">↗</span></a>
-                <a href="https://github.com/NobodyToListen/JDoor" rel="external">Source history <span aria-hidden="true">↗</span></a>
+              <span class="project-record__number" aria-hidden="true">07</span>
+              <div class="project-record__body">
+                <p class="project-category">Consent-based remote support</p>
+                <h3>JDoor Assist</h3>
+                <p>
+                  A remote-support project built around explicit invitation,
+                  observable sessions, immediate revocation and gated
+                  distribution.
+                </p>
+                <p class="project-note">
+                  <a href="./jdoor/">Read the engineering note <span aria-hidden="true">→</span></a>
+                  for the documented safety and release boundary.
+                </p>
+              </div>
+              <div class="project-record__details">
+                <ul aria-label="JDoor Assist technologies">
+                  <li>Java</li>
+                  <li>Session consent</li>
+                  <li>Remote support</li>
+                </ul>
+                <div class="project-actions">
+                  <a data-product-link href="https://jdoor.ejupilabs.com/" rel="external">Product <span class="sr-only">— JDoor Assist</span><span aria-hidden="true">↗</span></a>
+                  <a href="https://github.com/NobodyToListen/JDoor" rel="external">Source <span class="sr-only">— JDoor Assist</span><span aria-hidden="true">↗</span></a>
+                </div>
               </div>
             </article>
           </li>
         </ol>
       </section>
 
-      <section class="standards section" id="standards" aria-labelledby="standards-title">
+      <section class="section archive-notes" id="archive-notes" aria-labelledby="archive-notes-title">
         <div class="section-heading compact">
-          <p class="eyebrow"><span aria-hidden="true">03</span> Publishing standard</p>
-          <h2 id="standards-title">Every project earns<br />its place here.</h2>
+          <p class="eyebrow"><span aria-hidden="true">02</span> Editorial standard</p>
+          <h2 id="archive-notes-title">How to read the archive.</h2>
+          <p>
+            The index is intentionally concise. Detail remains close at hand
+            without turning the index into a substitute for the product or code.
+          </p>
         </div>
         <div class="standard-grid">
           <article>
             <span>01</span>
-            <h3>Runnable by design.</h3>
-            <p>The implementation, setup path and operating assumptions are treated as product work.</p>
+            <h3>Product context</h3>
+            <p>Purpose and operating boundaries appear before implementation detail.</p>
           </article>
           <article>
             <span>02</span>
-            <h3>Boundaries are explicit.</h3>
-            <p>Data handling, permissions and deliberate limits stay visible before adoption.</p>
+            <h3>Direct routes</h3>
+            <p>Product and Source stay visible and consistently placed in every record.</p>
           </article>
           <article>
             <span>03</span>
-            <h3>Evidence is inspectable.</h3>
-            <p>Tests, release checks and source make the engineering claims independently reviewable.</p>
+            <h3>Inspectable evidence</h3>
+            <p>Limits, tests and release status remain documented where they can be verified.</p>
           </article>
         </div>
       </section>
     </main>
 
     <footer>
-      <a class="footer-brand" href="https://ejupilabs.com/">
-        <img src="./favicon.svg" width="30" height="30" alt="" />
-        <span>Ejupi Labs</span>
+      <a class="footer-brand" href="https://ejupilabs.com/" rel="external" aria-label="Visit Ejupi Labs">
+        <img
+          class="brand-wordmark"
+          src="./brand/ejupi-labs-primary-carbon.svg"
+          width="958"
+          height="295"
+          alt="Ejupi Labs"
+        />
       </a>
-      <p>Script-free index · no tracking, remote fonts or personal data collection.</p>
-      <a href="https://github.com/ejupi-djenis30" rel="external">GitHub profile <span aria-hidden="true">↗</span></a>
+      <p>Maintained product archive · script-free, no tracking or remote fonts.</p>
+      <a href="https://github.com/ejupi-djenis30" rel="external">GitHub <span aria-hidden="true">↗</span></a>
     </footer>
   </body>
 </html>
