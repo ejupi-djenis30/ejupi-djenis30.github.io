@@ -46,7 +46,11 @@ const server = createServer(async (request, response) => {
     let filePath = requestedPath;
     let statusCode = 200;
     try {
-      const metadata = await stat(filePath);
+      let metadata = await stat(filePath);
+      if (metadata.isDirectory()) {
+        filePath = resolve(filePath, "index.html");
+        metadata = await stat(filePath);
+      }
       if (!metadata.isFile()) throw new Error("Not a file");
     } catch {
       filePath = fallbackPath;

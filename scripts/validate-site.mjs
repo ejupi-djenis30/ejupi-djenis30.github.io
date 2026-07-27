@@ -1,6 +1,9 @@
 import { readFile, readdir, stat } from "node:fs/promises";
 
 const SITE_URL = "https://ejupi-djenis30.github.io/";
+const JDOOR_URL = `${SITE_URL}jdoor/`;
+const JDOOR_SOURCE_URL = "https://github.com/NobodyToListen/JDoor";
+const JDOOR_CASE_STUDY_URL = "https://blog.ejupilabs.com/case-studies/jdoor-security-lab/";
 const PROJECT_URLS = [
   `${SITE_URL}careeros-local/`,
   `${SITE_URL}PsychologistRustBot/`,
@@ -8,6 +11,7 @@ const PROJECT_URLS = [
   `${SITE_URL}DjenisAiAgent/`,
   `${SITE_URL}IntegraDraw/`,
   `${SITE_URL}vector-placement-operations/`,
+  JDOOR_URL,
 ];
 const siteRoot = new URL("../site/", import.meta.url);
 const repositoryRoot = new URL("../", siteRoot);
@@ -36,8 +40,9 @@ function contrastRatio(foreground, background) {
   return (luminances[0] + 0.05) / (luminances[1] + 0.05);
 }
 
-const [html, notFound, styles, robots, sitemap, favicon, packageText] = await Promise.all([
+const [html, jdoorPage, notFound, styles, robots, sitemap, favicon, packageText] = await Promise.all([
   readFile(new URL("index.html", siteRoot), "utf8"),
+  readFile(new URL("jdoor/index.html", siteRoot), "utf8"),
   readFile(new URL("404.html", siteRoot), "utf8"),
   readFile(new URL("styles.css", siteRoot), "utf8"),
   readFile(new URL("robots.txt", siteRoot), "utf8"),
@@ -62,12 +67,36 @@ for (const token of [
 
 const projectLinks = [...html.matchAll(/<a href="(https:\/\/ejupi-djenis30\.github\.io\/[^"]+\/)">/g)]
   .map(([, url]) => url);
-assert(projectLinks.length === PROJECT_URLS.length, "The public index must contain six project links.");
+assert(
+  projectLinks.length === PROJECT_URLS.length,
+  `The public index must contain ${PROJECT_URLS.length} project links.`,
+);
 assert(new Set(projectLinks).size === projectLinks.length, "Project links must be unique.");
 for (const url of PROJECT_URLS) {
   assert(projectLinks.includes(url), `The public index is missing ${url}`);
   assert(sitemap.includes(`<loc>${url}</loc>`), `The sitemap is missing ${url}`);
 }
+
+for (const token of [
+  'lang="en"',
+  '<main id="main" tabindex="-1">',
+  `rel="canonical" href="${JDOOR_URL}"`,
+  "default-src 'none'",
+  "No remote-control session runs from this page.",
+  "Download — in preparation",
+  `href="${JDOOR_SOURCE_URL}"`,
+  `href="${JDOOR_CASE_STUDY_URL}"`,
+]) {
+  assert(jdoorPage.includes(token), `jdoor/index.html is missing ${token}`);
+}
+assert(
+  !/<(?:script|iframe|form|input|button)\b/i.test(jdoorPage),
+  "The JDoor product tour must not include executable or interactive runtime surfaces.",
+);
+assert(
+  !/<a\b[^>]*(?:\bdownload\b|href="[^"]+\.(?:exe|jar|msi|zip)(?:[?#][^"]*)?")/i.test(jdoorPage),
+  "The JDoor product tour must not expose an unverified executable download.",
+);
 
 assert(
   robots === `User-agent: *\nAllow: /\nSitemap: ${SITE_URL}sitemap.xml\n`,
@@ -85,9 +114,10 @@ assert(
     && favicon.includes('<rect x="270" y="100" width="30" height="312"/>'),
   "The favicon must preserve the bold E and slim L construction.",
 );
-assert(!/<script\b/i.test(html), "The index must remain script-free.");
+assert(!/<script\b/i.test(html) && !/<script\b/i.test(jdoorPage), "Public pages must remain script-free.");
 assert(
-  !/frame-ancestors|upgrade-insecure-requests/.test(html),
+  !/frame-ancestors|upgrade-insecure-requests/.test(html)
+    && !/frame-ancestors|upgrade-insecure-requests/.test(jdoorPage),
   "Meta CSP must not contain header-only directives or break HTTP-based local verification.",
 );
 assert(!/@import|https?:\/\/[^)'"]+\.(?:css|woff2?)/i.test(styles), "The site must not load remote CSS or fonts.");
@@ -120,6 +150,7 @@ for (const path of [
 
 const entries = await readdir(siteRoot);
 assert(entries.includes("social-preview.png"), "The shared Ejupi Labs social preview is missing.");
+assert(entries.includes("jdoor"), "The JDoor product-tour directory is missing.");
 assert(packageJson.homepage === SITE_URL, "package.json must declare the root user Pages URL.");
 assert(packageJson.license === "MIT", "package.json must declare the MIT license.");
 assert(packageJson.devDependencies?.["@playwright/test"] === "1.61.1", "Playwright must be exactly pinned.");
