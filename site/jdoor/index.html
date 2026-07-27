@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="A static product tour for JDoor Assist 1.0.0: consent-first remote support with visible session boundaries, release evidence and no browser runtime."
+    />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="theme-color" content="#0e1111" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; style-src 'self'; img-src 'self'; base-uri 'none'; form-action 'none'"
+    />
+    <link rel="canonical" href="https://ejupi-djenis30.github.io/jdoor/" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/styles.css" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Ejupi Labs Open Source" />
+    <meta property="og:title" content="JDoor Assist 1.0.0 — Product Tour" />
+    <meta
+      property="og:description"
+      content="Consent-first remote support with explicit session boundaries. This page is documentation only and runs no remote-control code."
+    />
+    <meta
+      property="og:url"
+      content="https://ejupi-djenis30.github.io/jdoor/"
+    />
+    <meta
+      property="og:image"
+      content="https://ejupi-djenis30.github.io/social-preview.png"
+    />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="JDoor Assist 1.0.0 — Product Tour" />
+    <meta
+      name="twitter:description"
+      content="A safe, static tour of a consent-first remote-support project."
+    />
+    <meta
+      name="twitter:image"
+      content="https://ejupi-djenis30.github.io/social-preview.png"
+    />
+    <title>JDoor Assist 1.0.0 — Product Tour</title>
+  </head>
+  <body class="project-detail">
+    <a class="skip-link" href="#main">Skip to the product tour</a>
+
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="Ejupi Labs open-source index, home">
+        <img src="/favicon.svg" width="34" height="34" alt="" />
+        <span>Ejupi Labs</span>
+        <small>Open source</small>
+      </a>
+      <nav aria-label="Primary navigation">
+        <a href="#safety">Safety</a>
+        <a href="https://blog.ejupilabs.com/case-studies/jdoor-security-lab/">Case study ↗</a>
+      </nav>
+    </header>
+
+    <main id="main" tabindex="-1">
+      <section class="hero project-hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow"><span>01</span> JDoor Assist / product tour</p>
+          <h1 id="hero-title">Remote support,<br /><em>with consent visible.</em></h1>
+          <p class="lead">
+            JDoor Assist 1.0.0 turns a collaborative school prototype into a
+            bounded remote-support project. The release contract starts with an
+            explicit invitation, a visible session and a clear way to stop.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-dark" href="#tour">Explore the tour ↓</a>
+            <a
+              class="button button-line"
+              href="https://github.com/NobodyToListen/JDoor"
+              rel="external"
+            >Inspect source history ↗</a>
+          </div>
+        </div>
+
+        <aside class="product-panel" aria-labelledby="tour-status-title">
+          <div class="product-panel__heading">
+            <span>PRODUCT STATUS</span>
+            <span>1.0.0</span>
+          </div>
+          <h2 id="tour-status-title">Tour live.<br />Release in preparation.</h2>
+          <p>
+            No remote-control session runs from this page. It ships no
+            JavaScript, opens no socket, accepts no input and collects no data.
+          </p>
+          <dl class="product-facts">
+            <div><dt>Page role</dt><dd>Documentation only</dd></div>
+            <div><dt>Browser runtime</dt><dd>None</dd></div>
+            <div><dt>Download</dt><dd>Pending verification</dd></div>
+            <div><dt>License</dt><dd>GPL-3.0</dd></div>
+          </dl>
+        </aside>
+      </section>
+
+      <section class="section" id="tour" aria-labelledby="tour-title">
+        <div class="section-heading">
+          <p class="eyebrow"><span>02</span> Product tour</p>
+          <h2 id="tour-title">A support session<br />that announces itself.</h2>
+          <p>
+            The 1.0.0 contract is designed around an observable session rather
+            than hidden access. These are product boundaries, not a live browser
+            simulation.
+          </p>
+        </div>
+        <div class="standard-grid">
+          <article>
+            <span>01</span>
+            <h3>Request.</h3>
+            <p>
+              A support session starts with a deliberate invitation. The person
+              receiving help can see who is requesting access and what the
+              session is for.
+            </p>
+          </article>
+          <article>
+            <span>02</span>
+            <h3>Confirm.</h3>
+            <p>
+              Nothing begins before explicit acceptance. Session state and
+              permitted capabilities stay visible while assistance is active.
+            </p>
+          </article>
+          <article>
+            <span>03</span>
+            <h3>End.</h3>
+            <p>
+              Either side can terminate the session. Verification focuses on
+              bounded behaviour, clear shutdown and an inspectable audit trail.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="safety" aria-labelledby="safety-title">
+        <div class="section-heading">
+          <p class="eyebrow"><span>03</span> Safety boundary</p>
+          <h2 id="safety-title">What this project<br />does not hide.</h2>
+          <p>
+            JDoor Assist is intended only for devices and people that have
+            explicitly agreed to a support session. The public page keeps that
+            boundary legible before distribution begins.
+          </p>
+        </div>
+        <div class="safety-banner">
+          <strong>No live control plane</strong>
+          <p>
+            This website does not expose commands, execute code, contact an
+            agent or provide a public remote-desktop endpoint.
+          </p>
+        </div>
+        <div class="standard-grid">
+          <article>
+            <span>01</span>
+            <h3>No stealth.</h3>
+            <p>
+              Silent installation, persistence, evasion and covert activation
+              are outside the published product contract.
+            </p>
+          </article>
+          <article>
+            <span>02</span>
+            <h3>No public session.</h3>
+            <p>
+              The tour contains no form, iframe, embedded console or network
+              client. It cannot connect to another device.
+            </p>
+          </article>
+          <article>
+            <span>03</span>
+            <h3>No unverified build.</h3>
+            <p>
+              Distribution waits for a tagged release, reproducible checks,
+              dependency review and published integrity information.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="release" aria-labelledby="release-title">
+        <div class="section-heading">
+          <p class="eyebrow"><span>04</span> Release evidence</p>
+          <h2 id="release-title">Verification<br />before distribution.</h2>
+          <p>
+            The download remains intentionally unavailable until the 1.0.0
+            release exists and its evidence can be checked against an immutable
+            source snapshot.
+          </p>
+        </div>
+        <div class="release-strip">
+          <div>
+            <span>Release</span>
+            <strong>1.0.0</strong>
+          </div>
+          <div>
+            <span>Status</span>
+            <strong>In preparation</strong>
+          </div>
+          <div>
+            <span>Distribution</span>
+            <strong>Not yet available</strong>
+          </div>
+        </div>
+        <p class="release-placeholder" aria-label="Download status">
+          Download — in preparation
+        </p>
+        <div class="hero-actions">
+          <a
+            class="button button-dark"
+            href="https://github.com/NobodyToListen/JDoor"
+            rel="external"
+          >Inspect the source ↗</a>
+          <a
+            class="button button-line"
+            href="https://blog.ejupilabs.com/case-studies/jdoor-security-lab/"
+            rel="external"
+          >Read the engineering case study ↗</a>
+        </div>
+      </section>
+
+      <section class="section project-history" aria-labelledby="history-title">
+        <div class="section-heading">
+          <p class="eyebrow"><span>05</span> History and credit</p>
+          <h2 id="history-title">The origin<br />stays visible.</h2>
+          <p>
+            JDoor began as a collaborative school project. Its modernization
+            preserves the source history, shared origin and GPL-3.0 licensing
+            instead of presenting earlier work as a new solo invention.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <a class="footer-brand" href="/">
+        <img src="/favicon.svg" width="30" height="30" alt="" />
+        <span>Ejupi Labs</span>
+      </a>
+      <p>No tracking. No remote fonts. No personal data collected.</p>
+      <a href="https://github.com/NobodyToListen/JDoor">Source history ↗</a>
+    </footer>
+  </body>
+</html>
