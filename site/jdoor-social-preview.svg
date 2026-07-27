@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title description">
+  <title id="title">JDoor Assist social preview</title>
+  <desc id="description">Ejupi Labs preview for JDoor Assist, a consent-based remote support product tour.</desc>
+  <rect width="1200" height="630" fill="#F4F1EA"/>
+  <rect x="0" y="0" width="1200" height="14" fill="#E97A4A"/>
+
+  <g font-family="Inter, Arial, sans-serif" fill="#0E1111">
+    <g transform="translate(72 58)">
+      <path d="M0 0h25v25H0zM0 0h68v8H0zM0 17h60v8H0zM82 0h8v25H82zM82 17h25v8H82z"/>
+      <rect x="118" y="17" width="8" height="8" fill="#E97A4A"/>
+      <text x="150" y="21" font-size="20" font-weight="700" letter-spacing="0.7">EJUPI LABS</text>
+      <text x="320" y="21" font-size="18" fill="#5A5D5D" letter-spacing="0.4">OPEN SOURCE</text>
+    </g>
+
+    <text x="72" y="197" font-size="20" font-weight="700" letter-spacing="3.2" fill="#B64C26">PRODUCT TOUR · PRE-RELEASE</text>
+    <text x="72" y="290" font-size="86" font-weight="800" letter-spacing="-4.2">JDoor Assist</text>
+    <text x="72" y="362" font-size="42" font-weight="500" letter-spacing="-1.5">
+      Remote support,
+    </text>
+    <text x="72" y="414" font-size="42" font-weight="500" letter-spacing="-1.5">
+      with visible consent.
+    </text>
+    <text x="72" y="500" font-size="22" fill="#4F5252">
+      Documentation live. Release gated by evidence.
+    </text>
+  </g>
+
+  <g transform="translate(820 80)" font-family="Inter, Arial, sans-serif">
+    <rect width="308" height="470" rx="4" fill="#0E1111"/>
+    <text x="34" y="50" font-size="16" font-weight="700" letter-spacing="2.4" fill="#F4F1EA">SESSION BOUNDARY</text>
+    <path d="M54 112v240" stroke="#6A6D6D" stroke-width="2"/>
+
+    <g transform="translate(34 96)">
+      <rect width="40" height="40" fill="#E97A4A"/>
+      <text x="64" y="18" font-size="14" font-weight="700" letter-spacing="1.8" fill="#E97A4A">01</text>
+      <text x="64" y="40" font-size="22" font-weight="700" fill="#F4F1EA">Request</text>
+    </g>
+    <g transform="translate(34 206)">
+      <rect width="40" height="40" fill="#E97A4A"/>
+      <text x="64" y="18" font-size="14" font-weight="700" letter-spacing="1.8" fill="#E97A4A">02</text>
+      <text x="64" y="40" font-size="22" font-weight="700" fill="#F4F1EA">Authorize</text>
+    </g>
+    <g transform="translate(34 316)">
+      <rect width="40" height="40" fill="#E97A4A"/>
+      <text x="64" y="18" font-size="14" font-weight="700" letter-spacing="1.8" fill="#E97A4A">03</text>
+      <text x="64" y="40" font-size="22" font-weight="700" fill="#F4F1EA">Stop</text>
+    </g>
+
+    <rect x="34" y="410" width="240" height="1" fill="#4B4E4E"/>
+    <text x="34" y="444" font-size="14" letter-spacing="1.4" fill="#B7B7B2">DOCUMENTATION ONLY</text>
+  </g>
+</svg>
