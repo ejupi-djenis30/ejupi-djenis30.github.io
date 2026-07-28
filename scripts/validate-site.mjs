@@ -130,26 +130,64 @@ for (const token of [
   `rel="canonical" href="${JDOOR_NOTE_URL}"`,
   'property="og:locale" content="en_CH"',
   "default-src 'none'",
-  "JDoor Assist / Engineering note",
-  "No control plane runs here.",
-  "Download — in preparation",
+  "JDoor Assist / Engineering record",
+  "Working source. Deliberate limits.",
+  "Versioned code is not the same as a release.",
+  "No v1.0.0 tag, GitHub release",
+  'id="fit"',
+  'id="decisions"',
+  'role="table"',
+  "Choose something else",
   `href="${JDOOR_PRODUCT_URL}"`,
   `href="${JDOOR_SOURCE_URL}"`,
   `href="${JDOOR_CASE_STUDY_URL}"`,
+  'href="https://github.com/NobodyToListen/JDoor/blob/main/docs/DEVELOPMENT.md"',
+  'href="https://github.com/NobodyToListen/JDoor/blob/main/docs/THREAT_MODEL.md"',
   'src="/brand/ejupi-labs-primary-carbon.svg"',
   'content="https://ejupi-djenis30.github.io/jdoor-social-preview.png"',
-  'content="JDoor Assist engineering note by Ejupi Labs, documenting consent and release boundaries"',
+  'content="JDoor Assist engineering record: source 1.0.0, manual distribution and explicit design trade-offs."',
 ]) {
   assert(jdoorPage.includes(token), `jdoor/index.html is missing ${token}`);
 }
 assert(
-  !/<(?:script|iframe|form|input|button)\b/i.test(jdoorPage),
-  "The JDoor engineering note must not include executable or interactive runtime surfaces.",
+  !/<(?:iframe|form|input|button)\b/i.test(jdoorPage),
+  "The JDoor engineering record must not include interactive runtime surfaces.",
+);
+const jdoorScripts = [...jdoorPage.matchAll(/<script\b([^>]*)>/gi)];
+assert(
+  jdoorScripts.length === 1 && /type="application\/ld\+json"/i.test(jdoorScripts[0][1]),
+  "The JDoor record may contain only its non-executable JSON-LD script.",
+);
+const jdoorStructuredDataMatch = jdoorPage.match(
+  /<script type="application\/ld\+json">([\s\S]*?)<\/script>/,
+);
+assert(jdoorStructuredDataMatch, "The JDoor record must publish JSON-LD.");
+const jdoorStructuredData = JSON.parse(jdoorStructuredDataMatch[1]);
+assert(jdoorStructuredData["@type"] === "TechArticle", "JDoor JSON-LD must describe a TechArticle.");
+assert(
+  jdoorStructuredData.datePublished === "2026-07-27"
+    && jdoorStructuredData.dateModified === "2026-07-28",
+  "JDoor JSON-LD must preserve the page publication date and current editorial revision.",
+);
+assert(
+  jdoorStructuredData.about?.softwareVersion === "1.0.0"
+    && jdoorStructuredData.about?.codeRepository === JDOOR_SOURCE_URL,
+  "JDoor JSON-LD must identify the verified source version and repository.",
 );
 assert(
   !/<a\b[^>]*(?:\bdownload\b|href="[^"]+\.(?:exe|jar|msi|zip)(?:[?#][^"]*)?")/i.test(jdoorPage),
-  "The JDoor engineering note must not expose an unverified executable download.",
+  "The JDoor engineering record must not expose an unverified executable download.",
 );
+assert(!/PRE-RELEASE|Download — in preparation/i.test(jdoorPage), "Stale pre-release copy must stay removed.");
+for (const claim of [
+  "Java 21 + Swing",
+  "Direct trusted LAN",
+  "Ephemeral TLS + exact pin + code",
+  "Bounded protocol + view-only start",
+  "Cost accepted",
+]) {
+  assert(jdoorPage.includes(claim), `The concise decision record is missing ${claim}.`);
+}
 assert(
   !/<img\b[^>]*src="(?:\.\/|\/)favicon\.svg"/i.test(jdoorPage),
   "The square favicon must not be used as the visible Ejupi Labs brand on the JDoor note.",
@@ -197,7 +235,7 @@ for (const [name, source] of [
     `The editable ${name} social preview must reuse the canonical wordmark asset.`,
   );
 }
-assert(!/<script\b/i.test(html) && !/<script\b/i.test(jdoorPage), "Public pages must remain script-free.");
+assert(!/<script\b/i.test(html), "The product archive must remain script-free.");
 assert(
   !/frame-ancestors|upgrade-insecure-requests/.test(html)
     && !/frame-ancestors|upgrade-insecure-requests/.test(jdoorPage),
@@ -216,6 +254,10 @@ for (const selector of [
   ".project-index",
   ".project-record > article",
   ".project-actions",
+  ".record-panel",
+  ".fit-grid",
+  ".decision-table",
+  ".record-links",
 ]) {
   assert(styles.includes(selector), `The editorial archive styling is missing ${selector}.`);
 }
