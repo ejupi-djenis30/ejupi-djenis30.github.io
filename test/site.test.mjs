@@ -48,26 +48,31 @@ test("the crawler policy applies to the entire GitHub Pages origin", async () =>
   );
 });
 
-test("the public page has no executable JavaScript or remote font dependency", async () => {
+test("the public pages have no executable JavaScript or remote font dependency", async () => {
   const [html, jdoorPage, styles] = await Promise.all([
     readFile(new URL("index.html", siteRoot), "utf8"),
     readFile(new URL("jdoor/index.html", siteRoot), "utf8"),
     readFile(new URL("styles.css", siteRoot), "utf8"),
   ]);
   assert.doesNotMatch(html, /<script\b/i);
-  assert.doesNotMatch(jdoorPage, /<(?:script|iframe|form|input|button)\b/i);
+  assert.doesNotMatch(jdoorPage, /<(?:iframe|form|input|button)\b/i);
+  const scripts = [...jdoorPage.matchAll(/<script\b([^>]*)>/gi)];
+  assert.equal(scripts.length, 1);
+  assert.match(scripts[0][1], /type="application\/ld\+json"/i);
   assert.doesNotMatch(styles, /@import|https?:\/\/[^)'"]+\.(?:css|woff2?)/i);
 });
 
-test("the JDoor page is a non-executable engineering note with a gated release", async () => {
+test("the JDoor page is a complementary engineering record with precise distribution status", async () => {
   const html = await readFile(new URL("jdoor/index.html", siteRoot), "utf8");
   assert.match(
     html,
     /rel="canonical" href="https:\/\/ejupi-djenis30\.github\.io\/jdoor\/"/i,
   );
-  assert.match(html, /JDoor Assist \/ Engineering note/);
-  assert.match(html, /No control plane runs here\./);
-  assert.match(html, /Download — in preparation/);
+  assert.match(html, /JDoor Assist \/ Engineering record/);
+  assert.match(html, /Working source\. Deliberate limits\./);
+  assert.match(html, /No v1\.0\.0 tag, GitHub release\s+or signed installer is published/);
+  assert.match(html, /Distribution<\/dt><dd>Manual/);
+  assert.doesNotMatch(html, /PRE-RELEASE|Download — in preparation/i);
   assert.match(
     html,
     /content="https:\/\/ejupi-djenis30\.github\.io\/jdoor-social-preview\.png"/,
@@ -86,4 +91,23 @@ test("the JDoor page is a non-executable engineering note with a gated release",
     html,
     /<a\b[^>]*(?:\bdownload\b|href="[^"]+\.(?:exe|jar|msi|zip)(?:[?#][^"]*)?")/i,
   );
+  for (const choice of [
+    "Java 21 + Swing",
+    "Direct trusted LAN",
+    "Ephemeral TLS + exact pin + code",
+    "Bounded protocol + view-only start",
+  ]) {
+    assert.match(html, new RegExp(choice.replaceAll("+", "\\+")));
+  }
+  assert.equal((html.match(/class="fit-column fit-column--(?:yes|no)"/g) ?? []).length, 2);
+  assert.equal((html.match(/<article role="row">/g) ?? []).length, 4);
+
+  const structuredData = JSON.parse(
+    html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)?.[1],
+  );
+  assert.equal(structuredData["@type"], "TechArticle");
+  assert.equal(structuredData.datePublished, "2026-07-27");
+  assert.equal(structuredData.dateModified, "2026-07-28");
+  assert.equal(structuredData.about.softwareVersion, "1.0.0");
+  assert.equal(structuredData.about.codeRepository, "https://github.com/NobodyToListen/JDoor");
 });

@@ -20,28 +20,40 @@ test("publishes the complete editorial product archive", async ({ page }) => {
   ).toBeVisible();
 });
 
-test("publishes JDoor as an engineering note with a separate product home", async ({ page }) => {
+test("publishes JDoor as a complementary engineering record", async ({ page }) => {
   const response = await page.goto("/jdoor/");
   expect(response?.status()).toBe(200);
-  await expect(page).toHaveTitle("JDoor Assist — Engineering note | Ejupi Labs");
+  await expect(page).toHaveTitle("JDoor Assist — Engineering record | Ejupi Labs");
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
-    "engineering model",
+    "Working source",
   );
-  await expect(page.getByText("No control plane runs here.")).toBeVisible();
-  await expect(page.locator(".release-placeholder")).toHaveText("Download — in preparation");
+  await expect(page.locator(".record-panel")).toContainText("DistributionManual");
+  await expect(page.locator(".fit-column")).toHaveCount(2);
+  await expect(page.locator('.decision-table article[role="row"]')).toHaveCount(4);
+  await expect(page.locator("body")).not.toContainText("PRE-RELEASE");
+  await expect(page.locator("body")).not.toContainText("Download — in preparation");
   await expect(
     page.getByRole("link", { name: "Visit the product" }),
   ).toHaveAttribute("href", "https://jdoor.ejupilabs.com/");
   await expect(
-    page.locator('a[href="https://github.com/NobodyToListen/JDoor"]').first(),
-  ).toBeVisible();
+    page.getByRole("link", { name: /Build from source/ }).first(),
+  ).toHaveAttribute(
+    "href",
+    "https://github.com/NobodyToListen/JDoor/blob/main/docs/DEVELOPMENT.md",
+  );
+  await expect(
+    page.getByRole("link", { name: /Threat model/ }),
+  ).toHaveAttribute(
+    "href",
+    "https://github.com/NobodyToListen/JDoor/blob/main/docs/THREAT_MODEL.md",
+  );
   await expect(
     page.locator('a[href="https://blog.ejupilabs.com/case-studies/jdoor-security-lab/"]').first(),
   ).toHaveAttribute(
     "href",
     "https://blog.ejupilabs.com/case-studies/jdoor-security-lab/",
   );
-  await expect(page.locator("script, iframe, form, input, button")).toHaveCount(0);
+  await expect(page.locator("script:not([type='application/ld+json']), iframe, form, input, button")).toHaveCount(0);
   await expect(page.locator('meta[http-equiv="Content-Security-Policy"]')).toHaveAttribute(
     "content",
     /default-src 'none'/,
