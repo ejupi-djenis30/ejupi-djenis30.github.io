@@ -4,7 +4,7 @@ import { readFile, readdir, stat } from "node:fs/promises";
 const SITE_URL = "https://ejupi-djenis30.github.io/";
 const JDOOR_NOTE_URL = `${SITE_URL}jdoor/`;
 const JDOOR_PRODUCT_URL = `${SITE_URL}JDoor/`;
-const JDOOR_SOURCE_URL = "https://github.com/NobodyToListen/JDoor";
+const JDOOR_SOURCE_URL = "https://github.com/ejupi-djenis30/JDoor";
 const JDOOR_CASE_STUDY_URL = "https://blog.ejupilabs.com/case-studies/jdoor-security-lab/";
 const PROJECT_URLS = [
   `${SITE_URL}careeros-local/`,
@@ -170,8 +170,8 @@ for (const token of [
   `href="${JDOOR_PRODUCT_URL}"`,
   `href="${JDOOR_SOURCE_URL}"`,
   `href="${JDOOR_CASE_STUDY_URL}"`,
-  'href="https://github.com/NobodyToListen/JDoor/blob/main/docs/DEVELOPMENT.md"',
-  'href="https://github.com/NobodyToListen/JDoor/blob/main/docs/THREAT_MODEL.md"',
+  'href="https://github.com/ejupi-djenis30/JDoor/blob/main/docs/DEVELOPMENT.md"',
+  'href="https://github.com/ejupi-djenis30/JDoor/blob/main/docs/THREAT_MODEL.md"',
   'src="/brand/ejupi-labs-primary-carbon.svg"',
   'content="https://ejupi-djenis30.github.io/jdoor-social-preview.png"',
   'content="JDoor Assist engineering record: source 1.0.0, manual distribution and explicit design trade-offs."',
@@ -209,8 +209,8 @@ assert(
   "JDoor JSON-LD must acknowledge collaboration without publishing a collaborator identity.",
 );
 assert(
-  !/>\s*NobodyToListen\s*</u.test(jdoorPage),
-  "The JDoor record must not publish a collaborator username as visible copy.",
+  /co-created by Djenis Ejupi and\s+a collaborator/u.test(jdoorPage),
+  "The JDoor record must acknowledge collaboration without publishing a collaborator identity.",
 );
 assert(
   !/<a\b[^>]*(?:\bdownload\b|href="[^"]+\.(?:exe|jar|msi|zip)(?:[?#][^"]*)?")/i.test(jdoorPage),

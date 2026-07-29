@@ -106,8 +106,8 @@ test("the JDoor page is a complementary engineering record with precise distribu
     publicUrls.some(({ hostname }) => hostname === "jdoor.ejupilabs.com"),
     false,
   );
-  assert.doesNotMatch(html, />\s*NobodyToListen\s*</u);
-  assert.match(html, /href="https:\/\/github\.com\/NobodyToListen\/JDoor"/);
+  assert.match(html, /co-created by Djenis Ejupi and\s+a collaborator/u);
+  assert.match(html, /href="https:\/\/github\.com\/ejupi-djenis30\/JDoor"/);
   assert.match(
     html,
     /href="https:\/\/blog\.ejupilabs\.com\/case-studies\/jdoor-security-lab\/"/,
@@ -134,7 +134,7 @@ test("the JDoor page is a complementary engineering record with precise distribu
   assert.equal(structuredData.datePublished, "2026-07-27");
   assert.equal(structuredData.dateModified, "2026-07-28");
   assert.equal(structuredData.about.softwareVersion, "1.0.0");
-  assert.equal(structuredData.about.codeRepository, "https://github.com/NobodyToListen/JDoor");
+  assert.equal(structuredData.about.codeRepository, "https://github.com/ejupi-djenis30/JDoor");
   assert.equal(structuredData.about.url, "https://ejupi-djenis30.github.io/JDoor/");
   assert.equal(structuredData.contributor.name, "Project collaborator");
 });
