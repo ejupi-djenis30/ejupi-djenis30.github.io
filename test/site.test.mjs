@@ -11,12 +11,12 @@ test("the product archive contains exactly seven canonical destinations", async 
     .map(([, url]) => url);
   assert.deepEqual(links, [
     "https://ejupi-djenis30.github.io/careeros-local/",
-    "https://ejupi-djenis30.github.io/PsychologistRustBot/",
+    "https://ejupi-djenis30.github.io/eliza-lab/",
     "https://ejupi-djenis30.github.io/DjenisAiAgent/",
     "https://ejupi-djenis30.github.io/Dig/",
     "https://ejupi-djenis30.github.io/IntegraDraw/",
     "https://ejupi-djenis30.github.io/vector-placement-operations/",
-    "https://jdoor.ejupilabs.com/",
+    "https://ejupi-djenis30.github.io/JDoor/",
   ]);
   assert.equal(new Set(links).size, 7);
   assert.match(html, /<h3>CareerOS Local<\/h3>/);
@@ -46,6 +46,24 @@ test("the crawler policy applies to the entire GitHub Pages origin", async () =>
     robots,
     "User-agent: *\nAllow: /\nSitemap: https://ejupi-djenis30.github.io/sitemap.xml\n",
   );
+});
+
+test("the former ELIZA project path forwards to its renamed GitHub Page", async () => {
+  const [html, sitemap] = await Promise.all([
+    readFile(new URL("PsychologistRustBot/index.html", siteRoot), "utf8"),
+    readFile(new URL("sitemap.xml", siteRoot), "utf8"),
+  ]);
+  assert.match(
+    html,
+    /http-equiv="refresh" content="0; url=https:\/\/ejupi-djenis30\.github\.io\/eliza-lab\/"/u,
+  );
+  assert.match(
+    html,
+    /rel="canonical" href="https:\/\/ejupi-djenis30\.github\.io\/eliza-lab\/"/u,
+  );
+  assert.match(html, /<a class="button button-dark" href="https:\/\/ejupi-djenis30\.github\.io\/eliza-lab\/">/u);
+  assert.match(html, /<h1>ELIZA Lab has moved\.<\/h1>/u);
+  assert.doesNotMatch(sitemap, /PsychologistRustBot/u);
 });
 
 test("the public pages have no executable JavaScript or remote font dependency", async () => {
@@ -81,8 +99,15 @@ test("the JDoor page is a complementary engineering record with precise distribu
     html,
     /(?:property="og:image"|name="twitter:image")\s+content="https:\/\/ejupi-djenis30\.github\.io\/social-preview\.png"/,
   );
-  assert.match(html, /href="https:\/\/jdoor\.ejupilabs\.com\/"/);
-  assert.match(html, /href="https:\/\/github\.com\/NobodyToListen\/JDoor"/);
+  assert.match(html, /href="https:\/\/ejupi-djenis30\.github\.io\/JDoor\/"/);
+  const publicUrls = [...html.matchAll(/\b(?:href|content)="(https:\/\/[^"]+)"/gu)]
+    .map(([, destination]) => new URL(destination));
+  assert.equal(
+    publicUrls.some(({ hostname }) => hostname === "jdoor.ejupilabs.com"),
+    false,
+  );
+  assert.match(html, /co-created by Djenis Ejupi and\s+a collaborator/u);
+  assert.match(html, /href="https:\/\/github\.com\/ejupi-djenis30\/JDoor"/);
   assert.match(
     html,
     /href="https:\/\/blog\.ejupilabs\.com\/case-studies\/jdoor-security-lab\/"/,
@@ -109,5 +134,7 @@ test("the JDoor page is a complementary engineering record with precise distribu
   assert.equal(structuredData.datePublished, "2026-07-27");
   assert.equal(structuredData.dateModified, "2026-07-28");
   assert.equal(structuredData.about.softwareVersion, "1.0.0");
-  assert.equal(structuredData.about.codeRepository, "https://github.com/NobodyToListen/JDoor");
+  assert.equal(structuredData.about.codeRepository, "https://github.com/ejupi-djenis30/JDoor");
+  assert.equal(structuredData.about.url, "https://ejupi-djenis30.github.io/JDoor/");
+  assert.equal(structuredData.contributor.name, "Project collaborator");
 });
