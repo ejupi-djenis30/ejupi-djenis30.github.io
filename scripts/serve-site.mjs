@@ -5,7 +5,10 @@ import { extname, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const HOST = "127.0.0.1";
-const PORT = 4173;
+const PORT = Number.parseInt(process.env.PLAYWRIGHT_PORT ?? process.env.PORT ?? "4173", 10);
+if (!Number.isInteger(PORT) || PORT < 1 || PORT > 65_535) {
+  throw new Error("PLAYWRIGHT_PORT or PORT must be an integer between 1 and 65535.");
+}
 const SITE_ROOT = fileURLToPath(new URL("../site/", import.meta.url));
 const SITE_PREFIX = SITE_ROOT.endsWith(sep) ? SITE_ROOT : SITE_ROOT + sep;
 const CONTENT_TYPES = new Map([

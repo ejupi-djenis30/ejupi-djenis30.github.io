@@ -1,6 +1,11 @@
 import { defineConfig, devices } from "@playwright/test";
 
 const isCI = Boolean(process.env.CI);
+const port = Number.parseInt(process.env.PLAYWRIGHT_PORT ?? "4173", 10);
+if (!Number.isInteger(port) || port < 1 || port > 65_535) {
+  throw new Error("PLAYWRIGHT_PORT must be an integer between 1 and 65535.");
+}
+const baseURL = `http://127.0.0.1:${port}`;
 
 export default defineConfig({
   testDir: "./e2e",
@@ -13,7 +18,7 @@ export default defineConfig({
   expect: { timeout: 5_000 },
   outputDir: "test-results/playwright",
   use: {
-    baseURL: "http://127.0.0.1:4173",
+    baseURL,
     viewport: { width: 1280, height: 900 },
     colorScheme: "light",
     reducedMotion: "reduce",
@@ -35,7 +40,7 @@ export default defineConfig({
   ],
   webServer: {
     command: "node scripts/serve-site.mjs",
-    url: "http://127.0.0.1:4173",
+    url: baseURL,
     timeout: 10_000,
     reuseExistingServer: !isCI,
     stdout: "pipe",

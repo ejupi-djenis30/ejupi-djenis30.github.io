@@ -3,12 +3,12 @@ import { readFile, readdir, stat } from "node:fs/promises";
 
 const SITE_URL = "https://ejupi-djenis30.github.io/";
 const JDOOR_NOTE_URL = `${SITE_URL}jdoor/`;
-const JDOOR_PRODUCT_URL = "https://jdoor.ejupilabs.com/";
+const JDOOR_PRODUCT_URL = `${SITE_URL}JDoor/`;
 const JDOOR_SOURCE_URL = "https://github.com/NobodyToListen/JDoor";
 const JDOOR_CASE_STUDY_URL = "https://blog.ejupilabs.com/case-studies/jdoor-security-lab/";
 const PROJECT_URLS = [
   `${SITE_URL}careeros-local/`,
-  `${SITE_URL}PsychologistRustBot/`,
+  `${SITE_URL}eliza-lab/`,
   `${SITE_URL}DjenisAiAgent/`,
   `${SITE_URL}Dig/`,
   `${SITE_URL}IntegraDraw/`,
@@ -51,6 +51,7 @@ function contrastRatio(foreground, background) {
 const [
   html,
   jdoorPage,
+  legacyElizaRedirect,
   notFound,
   styles,
   robots,
@@ -65,6 +66,7 @@ const [
 ] = await Promise.all([
   readFile(new URL("index.html", siteRoot), "utf8"),
   readFile(new URL("jdoor/index.html", siteRoot), "utf8"),
+  readFile(new URL("PsychologistRustBot/index.html", siteRoot), "utf8"),
   readFile(new URL("404.html", siteRoot), "utf8"),
   readFile(new URL("styles.css", siteRoot), "utf8"),
   readFile(new URL("robots.txt", siteRoot), "utf8"),
@@ -112,6 +114,23 @@ for (const url of PROJECT_URLS) {
 for (const url of SITEMAP_URLS) {
   assert(sitemap.includes(`<loc>${url}</loc>`), `The sitemap is missing ${url}`);
 }
+assert(
+  !html.includes("jdoor.ejupilabs.com") && !jdoorPage.includes("jdoor.ejupilabs.com"),
+  "The retired JDoor custom domain must not remain in the public index.",
+);
+for (const token of [
+  '<meta name="robots" content="noindex, follow"',
+  'http-equiv="refresh" content="0; url=https://ejupi-djenis30.github.io/eliza-lab/"',
+  'rel="canonical" href="https://ejupi-djenis30.github.io/eliza-lab/"',
+  'href="https://ejupi-djenis30.github.io/eliza-lab/"',
+  "ELIZA Lab has moved.",
+]) {
+  assert(legacyElizaRedirect.includes(token), `The ELIZA compatibility page is missing ${token}`);
+}
+assert(
+  !sitemap.includes("PsychologistRustBot"),
+  "The legacy ELIZA address must stay out of the sitemap.",
+);
 
 assert(
   html.includes(`href="./jdoor/">Read the engineering note`),
@@ -173,6 +192,15 @@ assert(
   jdoorStructuredData.about?.softwareVersion === "1.0.0"
     && jdoorStructuredData.about?.codeRepository === JDOOR_SOURCE_URL,
   "JDoor JSON-LD must identify the verified source version and repository.",
+);
+assert(
+  jdoorStructuredData.contributor?.name === "Project collaborator"
+    && !jdoorStructuredData.contributor?.url,
+  "JDoor JSON-LD must acknowledge collaboration without publishing a collaborator identity.",
+);
+assert(
+  !/>\s*NobodyToListen\s*</u.test(jdoorPage),
+  "The JDoor record must not publish a collaborator username as visible copy.",
 );
 assert(
   !/<a\b[^>]*(?:\bdownload\b|href="[^"]+\.(?:exe|jar|msi|zip)(?:[?#][^"]*)?")/i.test(jdoorPage),
@@ -282,6 +310,7 @@ assert(entries.includes("jdoor-social-preview.png"), "The dedicated JDoor social
 assert(entries.includes("jdoor-social-preview.svg"), "The editable JDoor social preview source is missing.");
 assert(entries.includes("brand"), "The canonical Ejupi Labs brand directory is missing.");
 assert(entries.includes("jdoor"), "The JDoor engineering-note directory is missing.");
+assert(entries.includes("PsychologistRustBot"), "The legacy ELIZA compatibility directory is missing.");
 assert(packageJson.homepage === SITE_URL, "package.json must declare the root user Pages URL.");
 assert(packageJson.license === "MIT", "package.json must declare the MIT license.");
 assert(packageJson.devDependencies?.["@playwright/test"] === "1.61.1", "Playwright must be exactly pinned.");

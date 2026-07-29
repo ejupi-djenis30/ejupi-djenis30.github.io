@@ -16,7 +16,7 @@ test("publishes the complete editorial product archive", async ({ page }) => {
     "./brand/ejupi-labs-primary-carbon.svg",
   );
   await expect(
-    page.locator('[data-product-link][href="https://jdoor.ejupilabs.com/"]'),
+    page.locator('[data-product-link][href="https://ejupi-djenis30.github.io/JDoor/"]'),
   ).toBeVisible();
 });
 
@@ -34,7 +34,8 @@ test("publishes JDoor as a complementary engineering record", async ({ page }) =
   await expect(page.locator("body")).not.toContainText("Download — in preparation");
   await expect(
     page.getByRole("link", { name: "Visit the product" }),
-  ).toHaveAttribute("href", "https://jdoor.ejupilabs.com/");
+  ).toHaveAttribute("href", "https://ejupi-djenis30.github.io/JDoor/");
+  await expect(page.locator("body")).not.toContainText("NobodyToListen");
   await expect(
     page.getByRole("link", { name: /Build from source/ }).first(),
   ).toHaveAttribute(
