@@ -28,6 +28,11 @@ function assert(condition, message) {
   if (!condition) throw new Error(message);
 }
 
+function absoluteDocumentUrls(source) {
+  return [...source.matchAll(/\b(?:href|content)="(https:\/\/[^"]+)"/gu)]
+    .map(([, destination]) => new URL(destination));
+}
+
 function relativeLuminance(hexColor) {
   const channels = hexColor
     .slice(1)
@@ -114,9 +119,14 @@ for (const url of PROJECT_URLS) {
 for (const url of SITEMAP_URLS) {
   assert(sitemap.includes(`<loc>${url}</loc>`), `The sitemap is missing ${url}`);
 }
+const retiredJdoorHostname = "jdoor.ejupilabs.com";
+const publicDocumentUrls = [
+  ...absoluteDocumentUrls(html),
+  ...absoluteDocumentUrls(jdoorPage),
+];
 assert(
-  !html.includes("jdoor.ejupilabs.com") && !jdoorPage.includes("jdoor.ejupilabs.com"),
-  "The retired JDoor custom domain must not remain in the public index.",
+  publicDocumentUrls.every(({ hostname }) => hostname !== retiredJdoorHostname),
+  "The retired JDoor custom domain must not remain in public document URLs.",
 );
 for (const token of [
   '<meta name="robots" content="noindex, follow"',

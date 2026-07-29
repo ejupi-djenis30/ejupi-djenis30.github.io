@@ -100,7 +100,12 @@ test("the JDoor page is a complementary engineering record with precise distribu
     /(?:property="og:image"|name="twitter:image")\s+content="https:\/\/ejupi-djenis30\.github\.io\/social-preview\.png"/,
   );
   assert.match(html, /href="https:\/\/ejupi-djenis30\.github\.io\/JDoor\/"/);
-  assert.doesNotMatch(html, /jdoor\.ejupilabs\.com/iu);
+  const publicUrls = [...html.matchAll(/\b(?:href|content)="(https:\/\/[^"]+)"/gu)]
+    .map(([, destination]) => new URL(destination));
+  assert.equal(
+    publicUrls.some(({ hostname }) => hostname === "jdoor.ejupilabs.com"),
+    false,
+  );
   assert.doesNotMatch(html, />\s*NobodyToListen\s*</u);
   assert.match(html, /href="https:\/\/github\.com\/NobodyToListen\/JDoor"/);
   assert.match(
