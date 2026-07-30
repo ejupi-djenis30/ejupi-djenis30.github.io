@@ -39,6 +39,33 @@ for (const viewport of [
   }
 }
 
+for (const viewport of [
+  { width: 320, height: 720 },
+  { width: 390, height: 844 },
+]) {
+  test(`keeps every public link touch-friendly at ${viewport.width}px`, async ({ page }) => {
+    await page.setViewportSize(viewport);
+    await page.goto("/");
+    await page.locator(".skip-link").focus();
+
+    const undersized = await page.locator("a").evaluateAll((links) =>
+      links
+        .filter((link) => link.getClientRects().length > 0)
+        .map((link) => {
+          const rect = link.getBoundingClientRect();
+          return {
+            height: rect.height,
+            label: link.getAttribute("aria-label") ?? link.textContent.trim(),
+            width: rect.width,
+          };
+        })
+        .filter(({ height, width }) => height < 44 || width < 44),
+    );
+
+    expect(undersized).toEqual([]);
+  });
+}
+
 test("keeps both record actions distinct and touch-friendly at 320px", async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 720 });
   await page.goto("/");
