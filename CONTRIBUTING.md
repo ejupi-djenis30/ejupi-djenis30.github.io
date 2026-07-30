@@ -9,5 +9,6 @@ Before opening one:
 3. run `npm run test:e2e`;
 4. confirm that no project URL, crawler rule or accessibility behavior regressed.
 
-Use synthetic data only. Do not add personal names, contact details, analytics,
-remote fonts or third-party scripts.
+Use synthetic data only. Except for the official security-reporting address, do
+not add personal names, contact details, analytics, remote fonts or third-party
+scripts.

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
-import { readFile } from "node:fs/promises";
+import { readFile, readdir } from "node:fs/promises";
 import test from "node:test";
 
 const siteRoot = new URL("../site/", import.meta.url);
@@ -23,29 +23,47 @@ test("the product archive contains exactly seven canonical destinations", async 
   assert.match(html, /aria-label="CareerOS Local technologies"/);
   assert.match(html, />Djenis<wbr \/>AiAgent<\/h3>/);
   assert.doesNotMatch(html, />Djenis(?:\s+AI|AI)</);
-  assert.match(html, /href="\.\/jdoor\/">Read the engineering note/);
+  assert.equal(
+    links.filter((url) => url === "https://ejupi-djenis30.github.io/JDoor/").length,
+    1,
+  );
+  assert.doesNotMatch(html, /\/jdoor\//);
 });
 
-test("the public pages use the canonical full Ejupi Labs wordmark", async () => {
-  const [index, jdoor, wordmark] = await Promise.all([
+test("the public archive uses the canonical full Ejupi Labs wordmark", async () => {
+  const [index, wordmark] = await Promise.all([
     readFile(new URL("index.html", siteRoot), "utf8"),
-    readFile(new URL("jdoor/index.html", siteRoot), "utf8"),
     readFile(new URL("brand/ejupi-labs-primary-carbon.svg", siteRoot)),
   ]);
   assert.match(index, /src="\.\/brand\/ejupi-labs-primary-carbon\.svg"/);
-  assert.match(jdoor, /src="\/brand\/ejupi-labs-primary-carbon\.svg"/);
   assert.equal(
     createHash("sha256").update(wordmark).digest("hex"),
     "02e2b85c994f2d6080a906dd0411728a7da271206e5694198a99ccd30c995c2c",
   );
 });
 
-test("the crawler policy applies to the entire GitHub Pages origin", async () => {
-  const robots = await readFile(new URL("robots.txt", siteRoot), "utf8");
+test("the crawler and vulnerability-reporting policies apply to the Pages origin", async () => {
+  const [robots, securityTxt, pagesWorkflow] = await Promise.all([
+    readFile(new URL("robots.txt", siteRoot), "utf8"),
+    readFile(new URL(".well-known/security.txt", siteRoot), "utf8"),
+    readFile(new URL("../.github/workflows/pages.yml", siteRoot), "utf8"),
+  ]);
   assert.equal(
     robots,
     "User-agent: *\nAllow: /\nSitemap: https://ejupi-djenis30.github.io/sitemap.xml\n",
   );
+  assert.equal(
+    securityTxt,
+    [
+      "Contact: mailto:info@ejupilabs.com",
+      "Expires: 2027-07-29T23:59:59Z",
+      "Preferred-Languages: en",
+      "Canonical: https://ejupi-djenis30.github.io/.well-known/security.txt",
+      "Policy: https://github.com/ejupi-djenis30/ejupi-djenis30.github.io/security/policy",
+      "",
+    ].join("\n"),
+  );
+  assert.match(pagesWorkflow, /include-hidden-files:\s+true/u);
 });
 
 test("the former ELIZA project path forwards to its renamed GitHub Page", async () => {
@@ -66,75 +84,32 @@ test("the former ELIZA project path forwards to its renamed GitHub Page", async 
   assert.doesNotMatch(sitemap, /PsychologistRustBot/u);
 });
 
-test("the public pages have no executable JavaScript or remote font dependency", async () => {
-  const [html, jdoorPage, styles] = await Promise.all([
+test("the public archive has no executable JavaScript or remote font dependency", async () => {
+  const [html, styles] = await Promise.all([
     readFile(new URL("index.html", siteRoot), "utf8"),
-    readFile(new URL("jdoor/index.html", siteRoot), "utf8"),
     readFile(new URL("styles.css", siteRoot), "utf8"),
   ]);
   assert.doesNotMatch(html, /<script\b/i);
-  assert.doesNotMatch(jdoorPage, /<(?:iframe|form|input|button)\b/i);
-  const scripts = [...jdoorPage.matchAll(/<script\b([^>]*)>/gi)];
-  assert.equal(scripts.length, 1);
-  assert.match(scripts[0][1], /type="application\/ld\+json"/i);
   assert.doesNotMatch(styles, /@import|https?:\/\/[^)'"]+\.(?:css|woff2?)/i);
 });
 
-test("the JDoor page is a complementary engineering record with precise distribution status", async () => {
-  const html = await readFile(new URL("jdoor/index.html", siteRoot), "utf8");
-  assert.match(
-    html,
-    /rel="canonical" href="https:\/\/ejupi-djenis30\.github\.io\/jdoor\/"/i,
-  );
-  assert.match(html, /JDoor Assist \/ Engineering record/);
-  assert.match(html, /Working source\. Deliberate limits\./);
-  assert.match(html, /No v1\.0\.0 tag, GitHub release\s+or signed installer is published/);
-  assert.match(html, /Distribution<\/dt><dd>Manual/);
-  assert.doesNotMatch(html, /PRE-RELEASE|Download — in preparation/i);
-  assert.match(
-    html,
-    /content="https:\/\/ejupi-djenis30\.github\.io\/jdoor-social-preview\.png"/,
-  );
-  assert.doesNotMatch(
-    html,
-    /(?:property="og:image"|name="twitter:image")\s+content="https:\/\/ejupi-djenis30\.github\.io\/social-preview\.png"/,
-  );
-  assert.match(html, /href="https:\/\/ejupi-djenis30\.github\.io\/JDoor\/"/);
-  const publicUrls = [...html.matchAll(/\b(?:href|content)="(https:\/\/[^"]+)"/gu)]
-    .map(([, destination]) => new URL(destination));
+test("JDoor has one canonical project Page and no custom-domain configuration", async () => {
+  const [html, sitemap, entries] = await Promise.all([
+    readFile(new URL("index.html", siteRoot), "utf8"),
+    readFile(new URL("sitemap.xml", siteRoot), "utf8"),
+    readdir(siteRoot),
+  ]);
   assert.equal(
-    publicUrls.some(({ hostname }) => hostname === "jdoor.ejupilabs.com"),
-    false,
+    (html.match(/https:\/\/ejupi-djenis30\.github\.io\/JDoor\//gu) ?? []).length,
+    1,
   );
-  assert.match(html, /co-created by Djenis Ejupi and\s+a collaborator/u);
-  assert.match(html, /href="https:\/\/github\.com\/ejupi-djenis30\/JDoor"/);
-  assert.match(
-    html,
-    /href="https:\/\/blog\.ejupilabs\.com\/case-studies\/jdoor-security-lab\/"/,
+  assert.equal(
+    (sitemap.match(/<loc>https:\/\/ejupi-djenis30\.github\.io\/JDoor\/<\/loc>/gu) ?? []).length,
+    1,
   );
-  assert.doesNotMatch(
-    html,
-    /<a\b[^>]*(?:\bdownload\b|href="[^"]+\.(?:exe|jar|msi|zip)(?:[?#][^"]*)?")/i,
-  );
-  for (const choice of [
-    "Java 21 + Swing",
-    "Direct trusted LAN",
-    "Ephemeral TLS + exact pin + code",
-    "Bounded protocol + view-only start",
-  ]) {
-    assert.match(html, new RegExp(choice.replaceAll("+", "\\+")));
-  }
-  assert.equal((html.match(/class="fit-column fit-column--(?:yes|no)"/g) ?? []).length, 2);
-  assert.equal((html.match(/<article role="row">/g) ?? []).length, 4);
-
-  const structuredData = JSON.parse(
-    html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)?.[1],
-  );
-  assert.equal(structuredData["@type"], "TechArticle");
-  assert.equal(structuredData.datePublished, "2026-07-27");
-  assert.equal(structuredData.dateModified, "2026-07-28");
-  assert.equal(structuredData.about.softwareVersion, "1.0.0");
-  assert.equal(structuredData.about.codeRepository, "https://github.com/ejupi-djenis30/JDoor");
-  assert.equal(structuredData.about.url, "https://ejupi-djenis30.github.io/JDoor/");
-  assert.equal(structuredData.contributor.name, "Project collaborator");
+  assert.doesNotMatch(html, /\/jdoor\//);
+  assert.doesNotMatch(sitemap, /\/jdoor\//);
+  assert.doesNotMatch(html, /jdoor\.ejupilabs\.com/i);
+  assert.equal(entries.includes("jdoor"), false);
+  assert.equal(entries.includes("CNAME"), false);
 });

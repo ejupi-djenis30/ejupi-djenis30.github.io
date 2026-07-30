@@ -2,10 +2,10 @@ import { createHash } from "node:crypto";
 import { readFile, readdir, stat } from "node:fs/promises";
 
 const SITE_URL = "https://ejupi-djenis30.github.io/";
-const JDOOR_NOTE_URL = `${SITE_URL}jdoor/`;
 const JDOOR_PRODUCT_URL = `${SITE_URL}JDoor/`;
-const JDOOR_SOURCE_URL = "https://github.com/ejupi-djenis30/JDoor";
-const JDOOR_CASE_STUDY_URL = "https://blog.ejupilabs.com/case-studies/jdoor-security-lab/";
+const SECURITY_TXT_URL = `${SITE_URL}.well-known/security.txt`;
+const SECURITY_POLICY_URL =
+  "https://github.com/ejupi-djenis30/ejupi-djenis30.github.io/security/policy";
 const PROJECT_URLS = [
   `${SITE_URL}careeros-local/`,
   `${SITE_URL}eliza-lab/`,
@@ -18,7 +18,6 @@ const PROJECT_URLS = [
 const SITEMAP_URLS = [
   SITE_URL,
   ...PROJECT_URLS.filter((url) => url.startsWith(SITE_URL)),
-  JDOOR_NOTE_URL,
 ];
 const CANONICAL_WORDMARK_SHA256 = "02e2b85c994f2d6080a906dd0411728a7da271206e5694198a99ccd30c995c2c";
 const siteRoot = new URL("../site/", import.meta.url);
@@ -55,34 +54,32 @@ function contrastRatio(foreground, background) {
 
 const [
   html,
-  jdoorPage,
   legacyElizaRedirect,
   notFound,
   styles,
   robots,
   sitemap,
+  securityTxt,
   favicon,
   wordmark,
   socialPreview,
   socialPreviewSource,
-  jdoorSocialPreview,
-  jdoorSocialPreviewSource,
   packageText,
+  pagesWorkflow,
 ] = await Promise.all([
   readFile(new URL("index.html", siteRoot), "utf8"),
-  readFile(new URL("jdoor/index.html", siteRoot), "utf8"),
   readFile(new URL("PsychologistRustBot/index.html", siteRoot), "utf8"),
   readFile(new URL("404.html", siteRoot), "utf8"),
   readFile(new URL("styles.css", siteRoot), "utf8"),
   readFile(new URL("robots.txt", siteRoot), "utf8"),
   readFile(new URL("sitemap.xml", siteRoot), "utf8"),
+  readFile(new URL(".well-known/security.txt", siteRoot), "utf8"),
   readFile(new URL("favicon.svg", siteRoot), "utf8"),
   readFile(new URL("brand/ejupi-labs-primary-carbon.svg", siteRoot)),
   readFile(new URL("social-preview.png", siteRoot)),
   readFile(new URL("social-preview.svg", siteRoot), "utf8"),
-  readFile(new URL("jdoor-social-preview.png", siteRoot)),
-  readFile(new URL("jdoor-social-preview.svg", siteRoot), "utf8"),
   readFile(new URL("package.json", repositoryRoot), "utf8"),
+  readFile(new URL(".github/workflows/pages.yml", repositoryRoot), "utf8"),
 ]);
 const packageJson = JSON.parse(packageText);
 
@@ -119,13 +116,21 @@ for (const url of PROJECT_URLS) {
 for (const url of SITEMAP_URLS) {
   assert(sitemap.includes(`<loc>${url}</loc>`), `The sitemap is missing ${url}`);
 }
-const retiredJdoorHostname = "jdoor.ejupilabs.com";
-const publicDocumentUrls = [
-  ...absoluteDocumentUrls(html),
-  ...absoluteDocumentUrls(jdoorPage),
-];
+const sitemapUrls = [...sitemap.matchAll(/<loc>(https:\/\/[^<]+)<\/loc>/gu)]
+  .map(([, url]) => url);
 assert(
-  publicDocumentUrls.every(({ hostname }) => hostname !== retiredJdoorHostname),
+  sitemapUrls.length === SITEMAP_URLS.length
+    && sitemapUrls.every((url, index) => url === SITEMAP_URLS[index]),
+  "The sitemap must contain only the canonical origin and project Pages URLs.",
+);
+assert(
+  projectLinks.filter((url) => url === JDOOR_PRODUCT_URL).length === 1
+    && !html.includes("/jdoor/")
+    && !sitemap.includes("/jdoor/"),
+  "JDoor must be advertised exactly once at its case-sensitive /JDoor/ Page.",
+);
+assert(
+  absoluteDocumentUrls(html).every(({ hostname }) => hostname !== "jdoor.ejupilabs.com"),
   "The retired JDoor custom domain must not remain in public document URLs.",
 );
 for (const token of [
@@ -141,11 +146,6 @@ assert(
   !sitemap.includes("PsychologistRustBot"),
   "The legacy ELIZA address must stay out of the sitemap.",
 );
-
-assert(
-  html.includes(`href="./jdoor/">Read the engineering note`),
-  "The JDoor record must preserve the local engineering note as secondary context.",
-);
 assert(!html.includes("index-board"), "The old diagrammatic index board must stay removed.");
 assert(!/treasure hunt/i.test(html), "The old campaign slogan must stay removed.");
 assert(
@@ -153,87 +153,32 @@ assert(
   "The square favicon must not be used as the visible Ejupi Labs brand.",
 );
 
-for (const token of [
-  'lang="en"',
-  '<main id="main" tabindex="-1">',
-  `rel="canonical" href="${JDOOR_NOTE_URL}"`,
-  'property="og:locale" content="en_CH"',
-  "default-src 'none'",
-  "JDoor Assist / Engineering record",
-  "Working source. Deliberate limits.",
-  "Versioned code is not the same as a release.",
-  "No v1.0.0 tag, GitHub release",
-  'id="fit"',
-  'id="decisions"',
-  'role="table"',
-  "Choose something else",
-  `href="${JDOOR_PRODUCT_URL}"`,
-  `href="${JDOOR_SOURCE_URL}"`,
-  `href="${JDOOR_CASE_STUDY_URL}"`,
-  'href="https://github.com/ejupi-djenis30/JDoor/blob/main/docs/DEVELOPMENT.md"',
-  'href="https://github.com/ejupi-djenis30/JDoor/blob/main/docs/THREAT_MODEL.md"',
-  'src="/brand/ejupi-labs-primary-carbon.svg"',
-  'content="https://ejupi-djenis30.github.io/jdoor-social-preview.png"',
-  'content="JDoor Assist engineering record: source 1.0.0, manual distribution and explicit design trade-offs."',
-]) {
-  assert(jdoorPage.includes(token), `jdoor/index.html is missing ${token}`);
-}
-assert(
-  !/<(?:iframe|form|input|button)\b/i.test(jdoorPage),
-  "The JDoor engineering record must not include interactive runtime surfaces.",
-);
-const jdoorScripts = [...jdoorPage.matchAll(/<script\b([^>]*)>/gi)];
-assert(
-  jdoorScripts.length === 1 && /type="application\/ld\+json"/i.test(jdoorScripts[0][1]),
-  "The JDoor record may contain only its non-executable JSON-LD script.",
-);
-const jdoorStructuredDataMatch = jdoorPage.match(
-  /<script type="application\/ld\+json">([\s\S]*?)<\/script>/,
-);
-assert(jdoorStructuredDataMatch, "The JDoor record must publish JSON-LD.");
-const jdoorStructuredData = JSON.parse(jdoorStructuredDataMatch[1]);
-assert(jdoorStructuredData["@type"] === "TechArticle", "JDoor JSON-LD must describe a TechArticle.");
-assert(
-  jdoorStructuredData.datePublished === "2026-07-27"
-    && jdoorStructuredData.dateModified === "2026-07-28",
-  "JDoor JSON-LD must preserve the page publication date and current editorial revision.",
-);
-assert(
-  jdoorStructuredData.about?.softwareVersion === "1.0.0"
-    && jdoorStructuredData.about?.codeRepository === JDOOR_SOURCE_URL,
-  "JDoor JSON-LD must identify the verified source version and repository.",
-);
-assert(
-  jdoorStructuredData.contributor?.name === "Project collaborator"
-    && !jdoorStructuredData.contributor?.url,
-  "JDoor JSON-LD must acknowledge collaboration without publishing a collaborator identity.",
-);
-assert(
-  /co-created by Djenis Ejupi and\s+a collaborator/u.test(jdoorPage),
-  "The JDoor record must acknowledge collaboration without publishing a collaborator identity.",
-);
-assert(
-  !/<a\b[^>]*(?:\bdownload\b|href="[^"]+\.(?:exe|jar|msi|zip)(?:[?#][^"]*)?")/i.test(jdoorPage),
-  "The JDoor engineering record must not expose an unverified executable download.",
-);
-assert(!/PRE-RELEASE|Download — in preparation/i.test(jdoorPage), "Stale pre-release copy must stay removed.");
-for (const claim of [
-  "Java 21 + Swing",
-  "Direct trusted LAN",
-  "Ephemeral TLS + exact pin + code",
-  "Bounded protocol + view-only start",
-  "Cost accepted",
-]) {
-  assert(jdoorPage.includes(claim), `The concise decision record is missing ${claim}.`);
-}
-assert(
-  !/<img\b[^>]*src="(?:\.\/|\/)favicon\.svg"/i.test(jdoorPage),
-  "The square favicon must not be used as the visible Ejupi Labs brand on the JDoor note.",
-);
-
 assert(
   robots === `User-agent: *\nAllow: /\nSitemap: ${SITE_URL}sitemap.xml\n`,
   "robots.txt must explicitly allow the origin and point to the sitemap.",
+);
+assert(
+  securityTxt === [
+    "Contact: mailto:info@ejupilabs.com",
+    "Expires: 2027-07-29T23:59:59Z",
+    "Preferred-Languages: en",
+    `Canonical: ${SECURITY_TXT_URL}`,
+    `Policy: ${SECURITY_POLICY_URL}`,
+    "",
+  ].join("\n"),
+  "security.txt must publish the canonical contact, expiry, language and reporting policy.",
+);
+const securityTxtExpires = Date.parse(
+  securityTxt.match(/^Expires:\s+(.+)$/mu)?.[1] ?? "",
+);
+assert(
+  Number.isFinite(securityTxtExpires) && securityTxtExpires > Date.now(),
+  "security.txt must have a valid future expiry.",
+);
+assert(
+  /uses:\s+actions\/upload-pages-artifact@[^\s]+[\s\S]*?with:[\s\S]*?path:\s+site[\s\S]*?include-hidden-files:\s+true/u
+    .test(pagesWorkflow),
+  "The Pages artifact must include .well-known/security.txt.",
 );
 assert(
   sitemap.startsWith('<?xml version="1.0" encoding="UTF-8"?>')
@@ -259,24 +204,12 @@ assert(
   "The social preview must be a 1200 × 630 PNG.",
 );
 assert(
-  jdoorSocialPreview.subarray(1, 4).toString("ascii") === "PNG"
-    && jdoorSocialPreview.readUInt32BE(16) === 1200
-    && jdoorSocialPreview.readUInt32BE(20) === 630,
-  "The JDoor social preview must be a dedicated 1200 × 630 PNG.",
+  socialPreviewSource.includes('href="./brand/ejupi-labs-primary-carbon.svg"'),
+  "The editable shared social preview must reuse the canonical wordmark asset.",
 );
-for (const [name, source] of [
-  ["shared", socialPreviewSource],
-  ["JDoor", jdoorSocialPreviewSource],
-]) {
-  assert(
-    source.includes('href="./brand/ejupi-labs-primary-carbon.svg"'),
-    `The editable ${name} social preview must reuse the canonical wordmark asset.`,
-  );
-}
 assert(!/<script\b/i.test(html), "The product archive must remain script-free.");
 assert(
-  !/frame-ancestors|upgrade-insecure-requests/.test(html)
-    && !/frame-ancestors|upgrade-insecure-requests/.test(jdoorPage),
+  !/frame-ancestors|upgrade-insecure-requests/.test(html),
   "Meta CSP must not contain header-only directives or break HTTP-based local verification.",
 );
 assert(!/@import|https?:\/\/[^)'"]+\.(?:css|woff2?)/i.test(styles), "The site must not load remote CSS or fonts.");
@@ -292,10 +225,6 @@ for (const selector of [
   ".project-index",
   ".project-record > article",
   ".project-actions",
-  ".record-panel",
-  ".fit-grid",
-  ".decision-table",
-  ".record-links",
 ]) {
   assert(styles.includes(selector), `The editorial archive styling is missing ${selector}.`);
 }
@@ -316,10 +245,10 @@ for (const path of [
 const entries = await readdir(siteRoot);
 assert(entries.includes("social-preview.png"), "The shared Ejupi Labs social preview is missing.");
 assert(entries.includes("social-preview.svg"), "The editable shared social preview source is missing.");
-assert(entries.includes("jdoor-social-preview.png"), "The dedicated JDoor social preview is missing.");
-assert(entries.includes("jdoor-social-preview.svg"), "The editable JDoor social preview source is missing.");
 assert(entries.includes("brand"), "The canonical Ejupi Labs brand directory is missing.");
-assert(entries.includes("jdoor"), "The JDoor engineering-note directory is missing.");
+assert(entries.includes(".well-known"), "The origin security-policy directory is missing.");
+assert(!entries.includes("jdoor"), "The duplicate lowercase /jdoor/ Page must not be published.");
+assert(!entries.includes("CNAME"), "The user Pages origin must not declare a custom domain.");
 assert(entries.includes("PsychologistRustBot"), "The legacy ELIZA compatibility directory is missing.");
 assert(packageJson.homepage === SITE_URL, "package.json must declare the root user Pages URL.");
 assert(packageJson.license === "MIT", "package.json must declare the MIT license.");
