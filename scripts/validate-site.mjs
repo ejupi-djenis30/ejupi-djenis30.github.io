@@ -252,6 +252,6 @@ assert(!entries.includes("CNAME"), "The user Pages origin must not declare a cus
 assert(entries.includes("PsychologistRustBot"), "The legacy ELIZA compatibility directory is missing.");
 assert(packageJson.homepage === SITE_URL, "package.json must declare the root user Pages URL.");
 assert(packageJson.license === "MIT", "package.json must declare the MIT license.");
-assert(packageJson.devDependencies?.["@playwright/test"] === "1.61.1", "Playwright must be exactly pinned.");
+assert(packageJson.devDependencies?.["@playwright/test"] === "1.62.0", "Playwright must be exactly pinned.");
 
 console.log("Ejupi Labs open-source archive validation passed.");
