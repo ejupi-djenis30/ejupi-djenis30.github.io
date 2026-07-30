@@ -1,0 +1,5 @@
+Contact: mailto:info@ejupilabs.com
+Expires: 2027-07-29T23:59:59Z
+Preferred-Languages: en
+Canonical: https://ejupi-djenis30.github.io/.well-known/security.txt
+Policy: https://github.com/ejupi-djenis30/ejupi-djenis30.github.io/security/policy

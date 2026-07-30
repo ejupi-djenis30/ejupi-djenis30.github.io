@@ -20,54 +20,13 @@ test("publishes the complete editorial product archive", async ({ page }) => {
   ).toBeVisible();
 });
 
-test("publishes JDoor as a complementary engineering record", async ({ page }) => {
-  const response = await page.goto("/jdoor/");
-  expect(response?.status()).toBe(200);
-  await expect(page).toHaveTitle("JDoor Assist — Engineering record | Ejupi Labs");
-  await expect(page.getByRole("heading", { level: 1 })).toContainText(
-    "Working source",
-  );
-  await expect(page.locator(".record-panel")).toContainText("DistributionManual");
-  await expect(page.locator(".fit-column")).toHaveCount(2);
-  await expect(page.locator('.decision-table article[role="row"]')).toHaveCount(4);
-  await expect(page.locator("body")).not.toContainText("PRE-RELEASE");
-  await expect(page.locator("body")).not.toContainText("Download — in preparation");
-  await expect(
-    page.getByRole("link", { name: "Visit the product" }),
-  ).toHaveAttribute("href", "https://ejupi-djenis30.github.io/JDoor/");
-  await expect(page.locator("#provenance")).toContainText("a collaborator");
-  await expect(
-    page.getByRole("link", { name: /Build from source/ }).first(),
-  ).toHaveAttribute(
-    "href",
-    "https://github.com/ejupi-djenis30/JDoor/blob/main/docs/DEVELOPMENT.md",
-  );
-  await expect(
-    page.getByRole("link", { name: /Threat model/ }),
-  ).toHaveAttribute(
-    "href",
-    "https://github.com/ejupi-djenis30/JDoor/blob/main/docs/THREAT_MODEL.md",
-  );
-  await expect(
-    page.locator('a[href="https://blog.ejupilabs.com/case-studies/jdoor-security-lab/"]').first(),
-  ).toHaveAttribute(
-    "href",
-    "https://blog.ejupilabs.com/case-studies/jdoor-security-lab/",
-  );
-  await expect(page.locator("script:not([type='application/ld+json']), iframe, form, input, button")).toHaveCount(0);
-  await expect(page.locator('meta[http-equiv="Content-Security-Policy"]')).toHaveAttribute(
-    "content",
-    /default-src 'none'/,
-  );
-});
-
 for (const viewport of [
   { width: 320, height: 720 },
   { width: 390, height: 844 },
   { width: 768, height: 1024 },
   { width: 1440, height: 1000 },
 ]) {
-  for (const path of ["/", "/jdoor/"]) {
+  for (const path of ["/"]) {
     test(`keeps ${path} inside ${viewport.width}px`, async ({ page }) => {
       await page.setViewportSize(viewport);
       await page.goto(path);
@@ -115,15 +74,21 @@ test("keeps both record actions distinct and touch-friendly at 320px", async ({ 
   }
 });
 
-test("serves origin-level crawler and preview assets with correct media types", async ({ request }) => {
+test("serves origin-level crawler, security and preview assets with correct media types", async ({ request }) => {
   const robots = await request.get("/robots.txt");
   const sitemap = await request.get("/sitemap.xml");
+  const securityTxt = await request.get("/.well-known/security.txt");
   const wordmark = await request.get("/brand/ejupi-labs-primary-carbon.svg");
   expect(robots.status()).toBe(200);
   expect(robots.headers()["content-type"]).toContain("text/plain");
   expect(await robots.text()).toContain("Allow: /");
   expect(sitemap.status()).toBe(200);
   expect(sitemap.headers()["content-type"]).toContain("application/xml");
+  expect(securityTxt.status()).toBe(200);
+  expect(securityTxt.headers()["content-type"]).toContain("text/plain");
+  expect(await securityTxt.text()).toContain(
+    "Canonical: https://ejupi-djenis30.github.io/.well-known/security.txt",
+  );
   expect(wordmark.status()).toBe(200);
   expect(wordmark.headers()["content-type"]).toContain("image/svg+xml");
 });
@@ -139,6 +104,12 @@ test("the skip link moves focus to the main content", async ({ page }) => {
 
 test("unknown paths return the designed 404 page", async ({ page }) => {
   const response = await page.goto("/not-a-real-project");
+  expect(response?.status()).toBe(404);
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Page not found.");
+});
+
+test("the removed lowercase JDoor path returns the designed 404 page", async ({ page }) => {
+  const response = await page.goto("/jdoor/");
   expect(response?.status()).toBe(404);
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Page not found.");
 });

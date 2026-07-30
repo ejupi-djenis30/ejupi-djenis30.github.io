@@ -6,13 +6,15 @@ This repository publishes the root site at
 It has four jobs:
 
 - provide one clear editorial archive for the maintained public products;
-- host a runtime-free engineering record when a project needs additional context;
 - publish the origin-level `robots.txt` and sitemap used by every project page;
+- publish the origin-level `.well-known/security.txt` vulnerability-reporting policy;
 - return a deliberate, useful 404 page instead of GitHub’s default response.
 
 The site is static, uses no executable browser JavaScript and has no analytics,
-remote fonts or personal data collection. The JDoor record includes non-executable
-JSON-LD so search engines can distinguish source versioning from distribution.
+remote fonts or personal data collection. Project links use their canonical
+GitHub Pages paths; JDoor is published only at
+[ejupi-djenis30.github.io/JDoor/](https://ejupi-djenis30.github.io/JDoor/).
+The user Pages origin does not declare a `CNAME` or any custom subdomain.
 
 ## Local verification
 
@@ -23,8 +25,8 @@ npm run test:e2e
 ```
 
 The browser suite checks the complete archive, the canonical Ejupi Labs
-wordmark, responsive containment, crawler assets, keyboard navigation and the
-404 contract.
+wordmark, responsive containment, crawler and security-policy assets, keyboard
+navigation and the 404 contract.
 
 ## Main portfolio
 
