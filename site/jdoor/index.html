@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="A script-free product tour for JDoor Assist: consent-based remote support with explicit session limits, source history and gated release evidence."
+      content="An Ejupi Labs engineering note on JDoor Assist: consent-based remote support with explicit session limits, source history and gated release evidence."
     />
     <meta name="robots" content="index, follow, max-image-preview:large" />
     <meta name="color-scheme" content="light" />
@@ -17,13 +17,13 @@
     <link rel="canonical" href="https://ejupi-djenis30.github.io/jdoor/" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="/styles.css" />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content="article" />
     <meta property="og:locale" content="en_CH" />
     <meta property="og:site_name" content="Ejupi Labs Open Source" />
-    <meta property="og:title" content="JDoor Assist — Consent-Based Remote Support" />
+    <meta property="og:title" content="JDoor Assist — Engineering note | Ejupi Labs" />
     <meta
       property="og:description"
-      content="A static product tour of explicit approval, observable session limits and release evidence before distribution."
+      content="How JDoor Assist defines consent, observable sessions, immediate revocation and pre-release evidence."
     />
     <meta
       property="og:url"
@@ -38,13 +38,13 @@
     <meta property="og:image:height" content="630" />
     <meta
       property="og:image:alt"
-      content="JDoor Assist — consent-based remote support, documented by Ejupi Labs"
+      content="JDoor Assist engineering note by Ejupi Labs, documenting consent and release boundaries"
     />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="JDoor Assist — Consent-Based Remote Support" />
+    <meta name="twitter:title" content="JDoor Assist — Engineering note | Ejupi Labs" />
     <meta
       name="twitter:description"
-      content="A static product tour of explicit approval, observable session limits and gated release evidence."
+      content="How JDoor Assist defines consent, observable sessions, immediate revocation and pre-release evidence."
     />
     <meta
       name="twitter:image"
@@ -52,21 +52,27 @@
     />
     <meta
       name="twitter:image:alt"
-      content="JDoor Assist — consent-based remote support, documented by Ejupi Labs"
+      content="JDoor Assist engineering note by Ejupi Labs, documenting consent and release boundaries"
     />
-    <title>JDoor Assist — Consent-Based Remote Support</title>
+    <title>JDoor Assist — Engineering note | Ejupi Labs</title>
   </head>
   <body class="project-detail">
-    <a class="skip-link" href="#main">Skip to the product tour</a>
+    <a class="skip-link" href="#main">Skip to the engineering note</a>
 
     <header class="site-header">
-      <a class="brand" href="/" aria-label="Ejupi Labs open-source index, home">
-        <img src="/favicon.svg" width="34" height="34" alt="" />
-        <span>Ejupi Labs</span>
-        <small>Open source</small>
+      <a class="brand" href="/" aria-label="Ejupi Labs open-source archive, home">
+        <img
+          class="brand-wordmark"
+          src="/brand/ejupi-labs-primary-carbon.svg"
+          width="958"
+          height="295"
+          alt="Ejupi Labs"
+        />
+        <span class="brand-context">Open-source archive</span>
       </a>
       <nav aria-label="Primary navigation">
-        <a href="#safety">Safety</a>
+        <a href="https://jdoor.ejupilabs.com/" rel="external">Product <span aria-hidden="true">↗</span></a>
+        <a href="#safety">Safety boundary</a>
         <a href="https://blog.ejupilabs.com/case-studies/jdoor-security-lab/" rel="external">Case study <span aria-hidden="true">↗</span></a>
       </nav>
     </header>
@@ -74,64 +80,66 @@
     <main id="main" tabindex="-1">
       <section class="hero project-hero" aria-labelledby="hero-title">
         <div class="hero-copy">
-          <p class="eyebrow"><span aria-hidden="true">01</span> JDoor Assist / product tour</p>
-          <h1 id="hero-title">Remote support,<br /><em>with visible consent.</em></h1>
+          <p class="eyebrow">JDoor Assist / Engineering note</p>
+          <h1 id="hero-title">The engineering model behind JDoor Assist.</h1>
           <p class="lead">
-            JDoor Assist reframes a collaborative school prototype as bounded
-            remote support. Its product contract requires a deliberate invitation,
-            an observable session and an immediate way to stop.
+            JDoor Assist reframes a collaborative school prototype as
+            consent-based remote support. This note records the intended session
+            model, safety constraints and release threshold; the product itself
+            has a separate home.
           </p>
           <div class="hero-actions">
-            <a class="button button-dark" href="#tour">Explore the tour <span aria-hidden="true">↓</span></a>
+            <a class="button button-dark" href="https://jdoor.ejupilabs.com/" rel="external">Visit the product <span aria-hidden="true">↗</span></a>
             <a
               class="button button-line"
               href="https://github.com/NobodyToListen/JDoor"
               rel="external"
-            >Inspect source history <span aria-hidden="true">↗</span></a>
+            >Inspect the source <span aria-hidden="true">↗</span></a>
           </div>
         </div>
 
-        <aside class="product-panel" aria-labelledby="tour-status-title">
+        <aside class="product-panel" aria-labelledby="note-status-title">
           <div class="product-panel__heading">
-            <span>PRODUCT STATUS</span>
+            <span>ARCHIVE NOTE</span>
             <span>PRE-RELEASE</span>
           </div>
-          <h2 id="tour-status-title">Documentation live.<br />Release gated.</h2>
+          <h2 id="note-status-title">Consent defines the session.</h2>
           <p>
-            No control plane runs here. This page ships no JavaScript, opens no
-            socket, accepts no input and collects no data.
+            No control plane runs here. This page documents the engineering
+            boundary; it ships no JavaScript, opens no socket, accepts no input
+            and collects no data.
           </p>
           <dl class="product-facts">
-            <div><dt>Page role</dt><dd>Documentation only</dd></div>
+            <div><dt>Page role</dt><dd>Engineering note</dd></div>
             <div><dt>Browser runtime</dt><dd>None</dd></div>
-            <div><dt>Download</dt><dd>Pending verification</dd></div>
+            <div><dt>Product home</dt><dd>jdoor.ejupilabs.com</dd></div>
             <div><dt>License</dt><dd>GPL-3.0</dd></div>
           </dl>
         </aside>
       </section>
 
-      <section class="section" id="tour" aria-labelledby="tour-title">
+      <section class="section" id="session-model" aria-labelledby="session-model-title">
         <div class="section-heading">
-          <p class="eyebrow"><span aria-hidden="true">02</span> Product tour</p>
-          <h2 id="tour-title">Consent at<br />every step.</h2>
+          <p class="eyebrow"><span aria-hidden="true">01</span> Session model</p>
+          <h2 id="session-model-title">Consent at every step.</h2>
           <p>
-            The proposed release is designed around an observable support
-            session. These are documented product boundaries, not a live browser
-            simulation.
+            The intended release is organized around an observable support
+            session. These are documented product requirements, not a live
+            browser simulation.
           </p>
         </div>
         <div class="standard-grid">
           <article>
             <span>01</span>
-            <h3>Request.</h3>
+            <h3>Request</h3>
             <p>
-              The person receiving help initiates the session and shares a
+              The person receiving help starts the session and shares a
               single-use invitation through a trusted channel.
             </p>
           </article>
           <article>
             <span>02</span>
-            <h3>Authorize.</h3>
+            <h3>Authorize</h3>
             <p>
               Local approval is required before viewing begins. Control remains
               separate, optional and revocable.
@@ -139,7 +147,7 @@
           </article>
           <article>
             <span>03</span>
-            <h3>Stop.</h3>
+            <h3>Stop</h3>
             <p>
               Either side can end the session. The host can withdraw control
               immediately, without creating unattended access.
@@ -150,25 +158,25 @@
 
       <section class="section" id="safety" aria-labelledby="safety-title">
         <div class="section-heading">
-          <p class="eyebrow"><span aria-hidden="true">03</span> Safety boundary</p>
-          <h2 id="safety-title">The boundary is part<br />of the product.</h2>
+          <p class="eyebrow"><span aria-hidden="true">02</span> Safety boundary</p>
+          <h2 id="safety-title">Safety constraints are product requirements.</h2>
           <p>
-            JDoor Assist is intended only for authorized help on trusted devices.
-            The public documentation makes that constraint legible before any
+            JDoor Assist is intended only for authorized help on trusted
+            devices. The public record makes that constraint visible before any
             build is distributed.
           </p>
         </div>
         <div class="safety-banner">
-          <strong>Static documentation only</strong>
+          <strong>Static engineering note</strong>
           <p>
-            The website exposes no commands, agent connection, embedded console
+            This page exposes no commands, agent connection, embedded console
             or public remote-desktop endpoint.
           </p>
         </div>
         <div class="standard-grid">
           <article>
             <span>01</span>
-            <h3>No stealth.</h3>
+            <h3>No stealth</h3>
             <p>
               Silent installation, persistence, evasion and covert activation
               are outside the published product contract.
@@ -176,15 +184,15 @@
           </article>
           <article>
             <span>02</span>
-            <h3>No public control surface.</h3>
+            <h3>No public control surface</h3>
             <p>
-              The tour has no form, iframe or network client. It cannot connect
+              The note has no form, iframe or network client. It cannot connect
               to another device.
             </p>
           </article>
           <article>
             <span>03</span>
-            <h3>No unverified distribution.</h3>
+            <h3>No unverified distribution</h3>
             <p>
               A public download waits for a tagged source snapshot, dependency
               review, reproducible checks and integrity information.
@@ -195,8 +203,8 @@
 
       <section class="section" id="release" aria-labelledby="release-title">
         <div class="section-heading">
-          <p class="eyebrow"><span aria-hidden="true">04</span> Release evidence</p>
-          <h2 id="release-title">Evidence first.<br />Distribution second.</h2>
+          <p class="eyebrow"><span aria-hidden="true">03</span> Release evidence</p>
+          <h2 id="release-title">Evidence before distribution.</h2>
           <p>
             The download remains unavailable until a release exists and its
             artifacts can be checked against an immutable source snapshot.
@@ -229,14 +237,14 @@
             class="button button-line"
             href="https://blog.ejupilabs.com/case-studies/jdoor-security-lab/"
             rel="external"
-          >Read the engineering case study <span aria-hidden="true">↗</span></a>
+          >Read the security case study <span aria-hidden="true">↗</span></a>
         </div>
       </section>
 
       <section class="section project-history" aria-labelledby="history-title">
         <div class="section-heading">
-          <p class="eyebrow"><span aria-hidden="true">05</span> History and credit</p>
-          <h2 id="history-title">Credit is part<br />of the record.</h2>
+          <p class="eyebrow"><span aria-hidden="true">04</span> History and credit</p>
+          <h2 id="history-title">The original work remains part of the record.</h2>
           <p>
             JDoor began as a collaborative school project. The modernization
             preserves its shared origin, source history and GPL-3.0 license.
@@ -246,12 +254,17 @@
     </main>
 
     <footer>
-      <a class="footer-brand" href="/">
-        <img src="/favicon.svg" width="30" height="30" alt="" />
-        <span>Ejupi Labs</span>
+      <a class="footer-brand" href="/" aria-label="Return to the Ejupi Labs open-source archive">
+        <img
+          class="brand-wordmark"
+          src="/brand/ejupi-labs-primary-carbon.svg"
+          width="958"
+          height="295"
+          alt="Ejupi Labs"
+        />
       </a>
-      <p>Script-free tour · no tracking, remote fonts or personal data collection.</p>
-      <a href="https://github.com/NobodyToListen/JDoor" rel="external">Source history <span aria-hidden="true">↗</span></a>
+      <p>Script-free engineering note · no tracking, remote fonts or data collection.</p>
+      <a href="https://github.com/NobodyToListen/JDoor" rel="external">Source <span aria-hidden="true">↗</span></a>
     </footer>
   </body>
 </html>

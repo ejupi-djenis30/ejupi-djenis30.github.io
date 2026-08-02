@@ -1,52 +1,40 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title description">
-  <title id="title">JDoor Assist social preview</title>
-  <desc id="description">Ejupi Labs preview for JDoor Assist, a consent-based remote support product tour.</desc>
+  <title id="title">JDoor Assist engineering note</title>
+  <desc id="description">An Ejupi Labs engineering note documenting consent, session and release boundaries for JDoor Assist.</desc>
   <rect width="1200" height="630" fill="#F4F1EA"/>
-  <rect x="0" y="0" width="1200" height="14" fill="#E97A4A"/>
+  <rect x="0" y="0" width="1200" height="12" fill="#B44A2A"/>
+  <image href="./brand/ejupi-labs-primary-carbon.svg" x="38" y="22" width="310" height="96"/>
 
-  <g font-family="Inter, Arial, sans-serif" fill="#0E1111">
-    <g transform="translate(72 58)">
-      <path d="M0 0h25v25H0zM0 0h68v8H0zM0 17h60v8H0zM82 0h8v25H82zM82 17h25v8H82z"/>
-      <rect x="118" y="17" width="8" height="8" fill="#E97A4A"/>
-      <text x="150" y="21" font-size="20" font-weight="700" letter-spacing="0.7">EJUPI LABS</text>
-      <text x="320" y="21" font-size="18" fill="#5A5D5D" letter-spacing="0.4">OPEN SOURCE</text>
-    </g>
-
-    <text x="72" y="197" font-size="20" font-weight="700" letter-spacing="3.2" fill="#B64C26">PRODUCT TOUR · PRE-RELEASE</text>
-    <text x="72" y="290" font-size="86" font-weight="800" letter-spacing="-4.2">JDoor Assist</text>
-    <text x="72" y="362" font-size="42" font-weight="500" letter-spacing="-1.5">
-      Remote support,
-    </text>
-    <text x="72" y="414" font-size="42" font-weight="500" letter-spacing="-1.5">
-      with visible consent.
-    </text>
-    <text x="72" y="500" font-size="22" fill="#4F5252">
-      Documentation live. Release gated by evidence.
-    </text>
+  <g font-family="Avenir Next, Segoe UI, Arial, sans-serif" fill="#0E1111">
+    <text x="64" y="174" font-size="16" font-weight="700" letter-spacing="2.8" fill="#B44A2A">ENGINEERING NOTE · PRE-RELEASE</text>
+    <text x="64" y="282" font-size="82" font-weight="700" letter-spacing="-4.2">JDoor Assist</text>
+    <text x="64" y="356" font-size="40" font-weight="500" letter-spacing="-1.2">Consent-based remote support,</text>
+    <text x="64" y="406" font-size="40" font-weight="500" letter-spacing="-1.2">with its boundaries documented.</text>
+    <line x1="64" y1="466" x2="714" y2="466" stroke="#0E1111"/>
+    <text x="64" y="508" font-size="19" fill="#565D60">Product home</text>
+    <text x="198" y="508" font-size="19" font-weight="700">jdoor.ejupilabs.com</text>
   </g>
 
-  <g transform="translate(820 80)" font-family="Inter, Arial, sans-serif">
-    <rect width="308" height="470" rx="4" fill="#0E1111"/>
-    <text x="34" y="50" font-size="16" font-weight="700" letter-spacing="2.4" fill="#F4F1EA">SESSION BOUNDARY</text>
-    <path d="M54 112v240" stroke="#6A6D6D" stroke-width="2"/>
+  <g transform="translate(820 64)" font-family="Avenir Next, Segoe UI, Arial, sans-serif">
+    <rect width="318" height="502" fill="#0E1111"/>
+    <text x="32" y="50" font-size="14" font-weight="700" letter-spacing="2.2" fill="#F4F1EA">DOCUMENTED BOUNDARY</text>
+    <line x1="32" y1="74" x2="286" y2="74" stroke="#4F5353"/>
 
-    <g transform="translate(34 96)">
-      <rect width="40" height="40" fill="#E97A4A"/>
-      <text x="64" y="18" font-size="14" font-weight="700" letter-spacing="1.8" fill="#E97A4A">01</text>
-      <text x="64" y="40" font-size="22" font-weight="700" fill="#F4F1EA">Request</text>
-    </g>
-    <g transform="translate(34 206)">
-      <rect width="40" height="40" fill="#E97A4A"/>
-      <text x="64" y="18" font-size="14" font-weight="700" letter-spacing="1.8" fill="#E97A4A">02</text>
-      <text x="64" y="40" font-size="22" font-weight="700" fill="#F4F1EA">Authorize</text>
-    </g>
-    <g transform="translate(34 316)">
-      <rect width="40" height="40" fill="#E97A4A"/>
-      <text x="64" y="18" font-size="14" font-weight="700" letter-spacing="1.8" fill="#E97A4A">03</text>
-      <text x="64" y="40" font-size="22" font-weight="700" fill="#F4F1EA">Stop</text>
-    </g>
+    <text x="32" y="126" font-family="Consolas, monospace" font-size="13" fill="#E97A4A">01</text>
+    <text x="74" y="126" font-size="13" letter-spacing="1.5" fill="#AAAFAA">SESSION MODEL</text>
+    <text x="74" y="152" font-size="20" font-weight="700" fill="#F4F1EA">Request · Authorize</text>
+    <text x="74" y="178" font-size="20" font-weight="700" fill="#F4F1EA">Stop</text>
 
-    <rect x="34" y="410" width="240" height="1" fill="#4B4E4E"/>
-    <text x="34" y="444" font-size="14" letter-spacing="1.4" fill="#B7B7B2">DOCUMENTATION ONLY</text>
+    <text x="32" y="222" font-family="Consolas, monospace" font-size="13" fill="#E97A4A">02</text>
+    <text x="74" y="222" font-size="13" letter-spacing="1.5" fill="#AAAFAA">CONTROL SURFACE</text>
+    <text x="74" y="250" font-size="22" font-weight="700" fill="#F4F1EA">None on this page</text>
+
+    <text x="32" y="318" font-family="Consolas, monospace" font-size="13" fill="#E97A4A">03</text>
+    <text x="74" y="318" font-size="13" letter-spacing="1.5" fill="#AAAFAA">DISTRIBUTION</text>
+    <text x="74" y="346" font-size="22" font-weight="700" fill="#F4F1EA">Gated by evidence</text>
+
+    <line x1="32" y1="410" x2="286" y2="410" stroke="#4F5353"/>
+    <text x="32" y="450" font-size="13" letter-spacing="1.7" fill="#AAAFAA">SCRIPT-FREE ARCHIVE NOTE</text>
+    <rect x="270" y="438" width="16" height="16" fill="#E97A4A"/>
   </g>
 </svg>
