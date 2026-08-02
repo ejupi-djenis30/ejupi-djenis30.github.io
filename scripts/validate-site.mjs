@@ -7,8 +7,8 @@ const JDOOR_CASE_STUDY_URL = "https://blog.ejupilabs.com/case-studies/jdoor-secu
 const PROJECT_URLS = [
   `${SITE_URL}careeros-local/`,
   `${SITE_URL}PsychologistRustBot/`,
-  `${SITE_URL}Dig/`,
   `${SITE_URL}DjenisAiAgent/`,
+  `${SITE_URL}Dig/`,
   `${SITE_URL}IntegraDraw/`,
   `${SITE_URL}vector-placement-operations/`,
   JDOOR_URL,
@@ -40,7 +40,18 @@ function contrastRatio(foreground, background) {
   return (luminances[0] + 0.05) / (luminances[1] + 0.05);
 }
 
-const [html, jdoorPage, notFound, styles, robots, sitemap, favicon, packageText] = await Promise.all([
+const [
+  html,
+  jdoorPage,
+  notFound,
+  styles,
+  robots,
+  sitemap,
+  favicon,
+  socialPreview,
+  jdoorSocialPreview,
+  packageText,
+] = await Promise.all([
   readFile(new URL("index.html", siteRoot), "utf8"),
   readFile(new URL("jdoor/index.html", siteRoot), "utf8"),
   readFile(new URL("404.html", siteRoot), "utf8"),
@@ -48,6 +59,8 @@ const [html, jdoorPage, notFound, styles, robots, sitemap, favicon, packageText]
   readFile(new URL("robots.txt", siteRoot), "utf8"),
   readFile(new URL("sitemap.xml", siteRoot), "utf8"),
   readFile(new URL("favicon.svg", siteRoot), "utf8"),
+  readFile(new URL("social-preview.png", siteRoot)),
+  readFile(new URL("jdoor-social-preview.png", siteRoot)),
   readFile(new URL("package.json", repositoryRoot), "utf8"),
 ]);
 const packageJson = JSON.parse(packageText);
@@ -59,8 +72,10 @@ for (const token of [
   "Skip to the projects",
   `rel="canonical" href="${SITE_URL}"`,
   `property="og:url" content="${SITE_URL}"`,
+  'property="og:locale" content="en_CH"',
+  'property="og:image:alt"',
   "base-uri 'none'",
-  "No tracking. No remote fonts. No personal data collected.",
+  "Script-free index · no tracking, remote fonts or personal data collection.",
 ]) {
   assert(html.includes(token), `index.html is missing ${token}`);
 }
@@ -72,6 +87,10 @@ assert(
   `The public index must contain ${PROJECT_URLS.length} project links.`,
 );
 assert(new Set(projectLinks).size === projectLinks.length, "Project links must be unique.");
+assert(
+  projectLinks.every((url, index) => url === PROJECT_URLS[index]),
+  "Project links must follow the canonical portfolio order.",
+);
 for (const url of PROJECT_URLS) {
   assert(projectLinks.includes(url), `The public index is missing ${url}`);
   assert(sitemap.includes(`<loc>${url}</loc>`), `The sitemap is missing ${url}`);
@@ -81,11 +100,14 @@ for (const token of [
   'lang="en"',
   '<main id="main" tabindex="-1">',
   `rel="canonical" href="${JDOOR_URL}"`,
+  'property="og:locale" content="en_CH"',
   "default-src 'none'",
-  "No remote-control session runs from this page.",
+  "No control plane runs here.",
   "Download — in preparation",
   `href="${JDOOR_SOURCE_URL}"`,
   `href="${JDOOR_CASE_STUDY_URL}"`,
+  'content="https://ejupi-djenis30.github.io/jdoor-social-preview.png"',
+  'content="JDoor Assist — consent-based remote support, documented by Ejupi Labs"',
 ]) {
   assert(jdoorPage.includes(token), `jdoor/index.html is missing ${token}`);
 }
@@ -110,9 +132,22 @@ assert(
 assert(/<meta name="robots" content="noindex"/.test(notFound), "404.html must stay out of search results.");
 assert(/<title\b/.test(favicon) && /<desc\b/.test(favicon), "The favicon must have accessible text.");
 assert(
-  favicon.includes('<rect x="40" y="100" width="64" height="312"/>')
-    && favicon.includes('<rect x="270" y="100" width="30" height="312"/>'),
-  "The favicon must preserve the bold E and slim L construction.",
+  favicon.includes('<rect x="116.46218" y="109.84273" width="38.714424" height="286.30588"/>')
+    && favicon.includes('<rect x="290.88461" y="109.84273" width="24.525547" height="286.30588"/>')
+    && favicon.includes('<rect x="415.1474" y="356.39883" width="38.301506" height="41.334988" fill="#E97A4A"/>'),
+  "The favicon must match the exact studio EL construction and Signal Oxide node geometry.",
+);
+assert(
+  socialPreview.subarray(1, 4).toString("ascii") === "PNG"
+    && socialPreview.readUInt32BE(16) === 1200
+    && socialPreview.readUInt32BE(20) === 630,
+  "The social preview must be a 1200 × 630 PNG.",
+);
+assert(
+  jdoorSocialPreview.subarray(1, 4).toString("ascii") === "PNG"
+    && jdoorSocialPreview.readUInt32BE(16) === 1200
+    && jdoorSocialPreview.readUInt32BE(20) === 630,
+  "The JDoor social preview must be a dedicated 1200 × 630 PNG.",
 );
 assert(!/<script\b/i.test(html) && !/<script\b/i.test(jdoorPage), "Public pages must remain script-free.");
 assert(
@@ -150,6 +185,8 @@ for (const path of [
 
 const entries = await readdir(siteRoot);
 assert(entries.includes("social-preview.png"), "The shared Ejupi Labs social preview is missing.");
+assert(entries.includes("jdoor-social-preview.png"), "The dedicated JDoor social preview is missing.");
+assert(entries.includes("jdoor-social-preview.svg"), "The editable JDoor social preview source is missing.");
 assert(entries.includes("jdoor"), "The JDoor product-tour directory is missing.");
 assert(packageJson.homepage === SITE_URL, "package.json must declare the root user Pages URL.");
 assert(packageJson.license === "MIT", "package.json must declare the MIT license.");

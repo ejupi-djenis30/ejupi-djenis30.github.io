@@ -3,7 +3,7 @@
 This repository publishes the root site at
 [ejupi-djenis30.github.io](https://ejupi-djenis30.github.io/).
 
-It has three jobs:
+It has four jobs:
 
 - provide one clear index for the maintained public projects;
 - host a script-free product tour when a project cannot safely run in the browser;

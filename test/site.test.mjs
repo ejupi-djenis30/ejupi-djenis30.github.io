@@ -8,10 +8,20 @@ test("the project index contains exactly seven unique destinations", async () =>
   const html = await readFile(new URL("index.html", siteRoot), "utf8");
   const links = [...html.matchAll(/<a href="(https:\/\/ejupi-djenis30\.github\.io\/[^"]+\/)">/g)]
     .map(([, url]) => url);
-  assert.equal(links.length, 7);
-  const destinations = new Set(links);
-  assert.equal(destinations.size, 7);
-  assert.ok(destinations.has("https://ejupi-djenis30.github.io/jdoor/"));
+  assert.deepEqual(links, [
+    "https://ejupi-djenis30.github.io/careeros-local/",
+    "https://ejupi-djenis30.github.io/PsychologistRustBot/",
+    "https://ejupi-djenis30.github.io/DjenisAiAgent/",
+    "https://ejupi-djenis30.github.io/Dig/",
+    "https://ejupi-djenis30.github.io/IntegraDraw/",
+    "https://ejupi-djenis30.github.io/vector-placement-operations/",
+    "https://ejupi-djenis30.github.io/jdoor/",
+  ]);
+  assert.equal(new Set(links).size, 7);
+  assert.match(html, /<h3>CareerOS Local<\/h3>/);
+  assert.match(html, /aria-label="CareerOS Local technologies"/);
+  assert.match(html, />Djenis<wbr \/>AiAgent<\/h3>/);
+  assert.doesNotMatch(html, />Djenis(?:\s+AI|AI)</);
 });
 
 test("the crawler policy applies to the entire GitHub Pages origin", async () => {
@@ -39,8 +49,16 @@ test("the JDoor page is a non-executable product tour with a gated release", asy
     html,
     /rel="canonical" href="https:\/\/ejupi-djenis30\.github\.io\/jdoor\/"/i,
   );
-  assert.match(html, /No remote-control session runs from this page\./);
+  assert.match(html, /No control plane runs here\./);
   assert.match(html, /Download — in preparation/);
+  assert.match(
+    html,
+    /content="https:\/\/ejupi-djenis30\.github\.io\/jdoor-social-preview\.png"/,
+  );
+  assert.doesNotMatch(
+    html,
+    /(?:property="og:image"|name="twitter:image")\s+content="https:\/\/ejupi-djenis30\.github\.io\/social-preview\.png"/,
+  );
   assert.match(html, /href="https:\/\/github\.com\/NobodyToListen\/JDoor"/);
   assert.match(
     html,

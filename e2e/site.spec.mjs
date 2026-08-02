@@ -7,21 +7,22 @@ test("publishes the complete project index", async ({ page }) => {
   await expect(page.locator("body")).toHaveCSS("background-color", "rgb(244, 241, 234)");
   await expect(page.locator(".project-grid")).toHaveCSS("display", "grid");
   await expect(page.locator(".project-card")).toHaveCount(7);
-  await expect(page.getByRole("link", { name: /Open the project/ })).toHaveCount(7);
+  await expect(page.getByRole("link", { name: /Open product/ })).toHaveCount(7);
+  await expect(page.getByRole("heading", { level: 3, name: "DjenisAiAgent" })).toBeVisible();
 });
 
 test("publishes JDoor as a safe product tour with no active download", async ({ page }) => {
   const response = await page.goto("/jdoor/");
   expect(response?.status()).toBe(200);
-  await expect(page).toHaveTitle("JDoor Assist 1.0.0 — Product Tour");
+  await expect(page).toHaveTitle("JDoor Assist — Consent-Based Remote Support");
   await expect(page.getByRole("heading", { level: 1 })).toContainText("Remote support");
-  await expect(page.getByText("No remote-control session runs from this page.")).toBeVisible();
+  await expect(page.getByText("No control plane runs here.")).toBeVisible();
   await expect(page.locator(".release-placeholder")).toHaveText("Download — in preparation");
   await expect(
-    page.getByRole("link", { name: "Inspect source history ↗" }),
+    page.getByRole("link", { name: "Inspect source history" }),
   ).toHaveAttribute("href", "https://github.com/NobodyToListen/JDoor");
   await expect(
-    page.getByRole("link", { name: "Case study ↗", exact: true }),
+    page.getByRole("link", { name: "Case study", exact: true }),
   ).toHaveAttribute(
     "href",
     "https://blog.ejupilabs.com/case-studies/jdoor-security-lab/",
@@ -34,6 +35,7 @@ test("publishes JDoor as a safe product tour with no active download", async ({ 
 });
 
 for (const viewport of [
+  { width: 320, height: 720 },
   { width: 390, height: 844 },
   { width: 768, height: 1024 },
   { width: 1440, height: 1000 },
@@ -50,6 +52,41 @@ for (const viewport of [
     });
   }
 }
+
+test("keeps both project actions distinct and touch-friendly at 320px", async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 720 });
+  await page.goto("/");
+
+  const actionGeometry = await page.locator(".project-card").evaluateAll((cards) => cards.map((card) => {
+    const links = [...card.querySelectorAll(".project-actions a")];
+    return {
+      cardScrollWidth: card.scrollWidth,
+      cardClientWidth: card.clientWidth,
+      links: links.map((link) => {
+        const rect = link.getBoundingClientRect();
+        return {
+          bottom: rect.bottom,
+          height: rect.height,
+          left: rect.left,
+          right: rect.right,
+          scrollWidth: link.scrollWidth,
+          clientWidth: link.clientWidth,
+          top: rect.top,
+        };
+      }),
+    };
+  }));
+
+  for (const card of actionGeometry) {
+    expect(card.cardScrollWidth).toBeLessThanOrEqual(card.cardClientWidth);
+    expect(card.links).toHaveLength(2);
+    expect(card.links[0].height).toBeGreaterThanOrEqual(44);
+    expect(card.links[1].height).toBeGreaterThanOrEqual(44);
+    expect(card.links[0].scrollWidth).toBeLessThanOrEqual(card.links[0].clientWidth);
+    expect(card.links[1].scrollWidth).toBeLessThanOrEqual(card.links[1].clientWidth);
+    expect(card.links[1].top).toBeGreaterThanOrEqual(card.links[0].bottom - 0.5);
+  }
+});
 
 test("serves origin-level crawler assets with correct media types", async ({ request }) => {
   const robots = await request.get("/robots.txt");
@@ -73,5 +110,5 @@ test("the skip link moves focus to the main content", async ({ page }) => {
 test("unknown paths return the designed 404 page", async ({ page }) => {
   const response = await page.goto("/not-a-real-project");
   expect(response?.status()).toBe(404);
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Nothing here.");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Page not found.");
 });
