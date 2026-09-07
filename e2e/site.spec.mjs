@@ -66,7 +66,7 @@ for (const viewport of [
   });
 }
 
-test("keeps both record actions distinct and touch-friendly at 320px", async ({ page }) => {
+test("keeps product, source and check actions distinct and touch-friendly at 320px", async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 720 });
   await page.goto("/");
 
@@ -92,12 +92,17 @@ test("keeps both record actions distinct and touch-friendly at 320px", async ({ 
 
   for (const record of actionGeometry) {
     expect(record.recordScrollWidth).toBeLessThanOrEqual(record.recordClientWidth);
-    expect(record.links).toHaveLength(2);
+    expect(record.links).toHaveLength(3);
+    for (const link of record.links) {
+      expect(link.height).toBeGreaterThanOrEqual(44);
+      expect(link.scrollWidth).toBeLessThanOrEqual(link.clientWidth);
+    }
     expect(record.links[0].height).toBeGreaterThanOrEqual(44);
     expect(record.links[1].height).toBeGreaterThanOrEqual(44);
     expect(record.links[0].scrollWidth).toBeLessThanOrEqual(record.links[0].clientWidth);
     expect(record.links[1].scrollWidth).toBeLessThanOrEqual(record.links[1].clientWidth);
     expect(record.links[1].top).toBeGreaterThanOrEqual(record.links[0].bottom - 0.5);
+    expect(record.links[2].top).toBeGreaterThanOrEqual(record.links[1].bottom - 1.5);
   }
 });
 

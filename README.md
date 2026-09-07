@@ -28,6 +28,10 @@ The browser suite checks the complete archive, the canonical Ejupi Labs
 wordmark, responsive containment, crawler and security-policy assets, keyboard
 navigation and the 404 contract.
 
+Each project record links directly to its product, source and CI workflow so a
+reader can inspect the implementation and the latest automated checks. CI links
+are evidence entry points, not a claim that every platform or workflow passes.
+
 ## Main portfolio
 
 The company portfolio and engineering case studies live at

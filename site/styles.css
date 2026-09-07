@@ -430,7 +430,7 @@ h1 {
 .project-record__details li {
   padding: 0.42rem 0.55rem;
   border: 1px solid var(--line-strong);
-  font-size: 0.6rem;
+  font-size: 0.875rem;
   font-weight: 800;
   letter-spacing: 0.065em;
   text-transform: uppercase;
@@ -451,7 +451,7 @@ h1 {
   gap: 0.7rem;
   padding: 0.8rem 0.9rem;
   border: 1px solid var(--ink);
-  font-size: 0.67rem;
+  font-size: 0.875rem;
   font-weight: 850;
   letter-spacing: 0.075em;
   text-decoration: none;
@@ -463,6 +463,14 @@ h1 {
 
 .project-actions a + a {
   margin-left: -1px;
+}
+
+.project-actions .project-checks {
+  grid-column: 1 / -1;
+  margin-top: -1px;
+  margin-left: 0;
+  letter-spacing: 0;
+  text-transform: none;
 }
 
 .standard-grid {
